@@ -1,18 +1,20 @@
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
-import { handlers } from '../handlers.ts';
 import configuration from '../configuration';
-import { APIHandler, Injection } from './types';
+import { handlers } from '../handlers';
 import PrismaService from './prisma-service';
 import RedisService from './redis-service';
-import cookieParser from 'cookie-parser';
+import { APIHandler, Injection } from './types';
 
 export async function startServer(options: {
   defaultAuthSubjects?: string[];
   unauthorizedSubjects?: string[];
 }) {
-  const redisService = await RedisService(configuration.redis.url);
+  const redisService = configuration.redis.url
+    ? await RedisService(configuration.redis.url)
+    : undefined;
   const prismaService = PrismaService(configuration.postgres.url);
 
   const injection: Injection = {

@@ -16,7 +16,9 @@ export { getInjection };
 
 export default {
   start: async () => {
-    const redisService = await RedisService(configuration.redis.url);
+    const redisService = configuration.redis.url
+      ? await RedisService(configuration.redis.url)
+      : undefined;
     const prismaService = PrismaService(configuration.postgres.url);
 
     di = {

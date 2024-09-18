@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
+"use client";
 
-export default function ProductCard({ product }: any) {
+import { Product } from "@ecom/types";
+
+export default function ProductCard({ product }: { product: Product }) {
   return (
     <div
       key={product.id}
@@ -10,18 +12,18 @@ export default function ProductCard({ product }: any) {
       <div className="group relative">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
           <img
-            src={product.imageSrc}
-            alt={product.imageAlt}
+            src={product.images?.[0]?.url}
+            alt={product.images?.[0]?.fileName}
             className="h-full w-full object-cover object-center group-hover:opacity-75"
           />
         </div>
         <div className="mt-4">
           <a
-            href={product.href}
+            href={product.slug}
             className="font-semibold text-gray-900 hover:underline"
           >
             <span className="absolute inset-0" />
-            {product.name}
+            {product.title}
           </a>
           <p className="mt-1 text-gray-900">{product.price}</p>
         </div>

@@ -31,9 +31,9 @@
     "lint:fix": "eslint . --fix",
     "test": "ENV_PATH=.env.test vitest run",
     "prisma-generate": "npx prisma generate",
-    "prisma-dev": "POSTGRES_URL=postgres://postgres:1@localhost:5432/myapp prisma migrate dev",
-    "prisma-create-only": "POSTGRES_URL=postgres://postgres:1@localhost:5432/myapp prisma migrate dev --create-only",
-    "prisma-deploy": "POSTGRES_URL=postgres://postgres:1@localhost:5432/myapp prisma migrate deploy"
+    "prisma-dev": "POSTGRES_URL=postgres://postgres:1@localhost:5442/myapp prisma migrate dev",
+    "prisma-create-only": "POSTGRES_URL=postgres://postgres:1@localhost:5442/myapp prisma migrate dev --create-only",
+    "prisma-deploy": "POSTGRES_URL=postgres://postgres:1@localhost:5442/myapp prisma migrate deploy"
   },
   "devDependencies": {
     "@types/express": "^4.17.21"

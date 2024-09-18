@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import HeaderMobile from "@/components/HeaderMobile";
 import { ApiService } from "@/lib/api-caller";
@@ -60,7 +61,7 @@ export default function Header() {
 
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                 <a
-                  href="#"
+                  href="/api/auth/signin"
                   className="text-sm font-medium text-white hover:text-gray-100"
                 >
                   Sign in

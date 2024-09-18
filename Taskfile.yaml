@@ -1,0 +1,57 @@
+version: "3"
+
+tasks:
+  dev:
+    desc: Run all apps in dev mode
+    deps:
+      - backend
+      - web
+
+  up:
+    desc: Run docker-compose
+    cmds:
+      - docker compose up -d
+
+  down:
+    desc: Stop docker-compose
+    cmds:
+      - docker compose down
+
+  backend:
+    dir: backend
+    cmds:
+      - yarn dev
+
+  web:
+    cmds:
+      - yarn dev
+
+  test:
+    dir: backend
+    cmds:
+      - yarn test
+
+  prisma-deploy:
+    desc: prisma-deploy
+    dir: backend
+    cmds:
+      - yarn prisma-deploy
+
+  prisma-generate:
+    desc: prisma-generate
+    dir: backend
+    cmds:
+      - yarn prisma-generate
+
+  prisma-dev:
+    desc: prisma-dev
+    dir: backend
+    cmds:
+      - yarn prisma-dev
+      - yarn prisma-generate
+
+  generate-handler:
+    desc: generate-handler
+    dir: backend
+    cmds:
+      - node generate-handler

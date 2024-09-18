@@ -1,17 +1,11 @@
 version: '3.8'
 
 services:
-  redis:
-    container_name: redis
-    image: redis:7.2
-    ports:
-      - 6379:6379
-
   postgres:
-    container_name: postgres
+    container_name: ecom-postgres
     image: postgres:16-alpine
     ports:
-      - 5432:5432
+      - 5442:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1

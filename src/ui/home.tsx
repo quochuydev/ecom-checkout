@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-"use client";
 import { ROUTING } from "@/lib/constants";
-import { setting } from "@/settings";
 import CollectionCard from "@/components/CollectionCard";
 import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";

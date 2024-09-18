@@ -66,15 +66,9 @@ export type Cart = {
   lineItems: Array<CartLineItem & { product: Product }>;
 };
 
-export type PageInfo = {
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  endCursor: string;
-};
-
 export type ProductCategory = {
-  handle: string;
   title: string;
+  slug: string;
   description?: string;
-  products: Product[];
+  products?: Product[];
 };

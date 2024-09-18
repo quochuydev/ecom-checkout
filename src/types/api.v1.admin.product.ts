@@ -1,4 +1,4 @@
-import { APIService, Product } from "@ecom/types";
+import { APIService, Product } from "@/types";
 
 export type ApiV1AdminProductGetList = APIService<
   "api.v1.admin.product.getList",

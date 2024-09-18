@@ -1,4 +1,4 @@
-import { APIService } from "./types";
+import { APIService } from ".";
 
 export type ApiV1AuthAuthorize = APIService<
   "api.v1.auth.authorize",

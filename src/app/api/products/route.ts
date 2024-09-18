@@ -1,19 +1,19 @@
-import { defaultHandler, isValidRequest } from '@/lib/api-handler';
-import { prisma } from '@/lib/prisma';
-import { nameToAsciiUsername } from '@/lib/transform';
-import type { APICreateProduct, APIGetProducts, Product } from '@/types/api';
-import type { Prisma } from '@prisma/client';
-import type { NextRequest } from 'next/server';
-import * as z from 'zod';
+import { defaultHandler, isValidRequest } from "@/lib/api-handler";
+import { prisma } from "@/lib/prisma";
+import { nameToAsciiUsername } from "@/lib/transform";
+import type { APICreateProduct, APIGetProducts } from "@/types";
+import type { Prisma } from "@prisma/client";
+import type { NextRequest } from "next/server";
+import * as z from "zod";
 
 export async function GET(request: NextRequest) {
   return defaultHandler<APIGetProducts>({ request }, async () => {
     const condition: Prisma.ProductWhereInput = {};
 
-    if (request.nextUrl.searchParams.get('productIds')) {
+    if (request.nextUrl.searchParams.get("productIds")) {
       const productIds = request.nextUrl.searchParams
-        ?.get('productIds')
-        ?.split(',');
+        ?.get("productIds")
+        ?.split(",");
       condition.id = { in: productIds };
     }
 
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     });
 
     return {
-      items: items as Product[],
+      items: items,
       total: items.length,
     };
   });
@@ -33,12 +33,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   return defaultHandler<APICreateProduct>({ request }, async (body) => {
-    isValidRequest<APICreateProduct['data']>({
+    isValidRequest<APICreateProduct["data"]>({
       data: {
         ...body,
       },
       schema: z.object({
-        name: z.string(),
+        title: z.string(),
         price: z.number(),
         regularPrice: z.number(),
         description: z.string(),
@@ -50,14 +50,12 @@ export async function POST(request: NextRequest) {
 
     const result = await prisma.product.create({
       data: {
-        name: body.name,
+        title: body.title,
         price: body.price,
         regularPrice: body.regularPrice,
         description: body.description,
         sku: body.sku,
-        status: body.status,
         slug: nameToAsciiUsername(body.name.toLowerCase()),
-        createdBy: '',
       },
     });
 

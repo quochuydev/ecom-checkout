@@ -2,7 +2,6 @@
 import HeaderMobile from "@/components/HeaderMobile";
 import { ApiService } from "@/lib/api-caller";
 import { setting } from "@/settings";
-import { APIGetProductCategories } from "@/types";
 import { Bars3Icon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -13,7 +12,7 @@ export default function Header() {
   const { data: productCategories } = useQuery({
     queryKey: ["productCategories"],
     queryFn: async () => {
-      const data = await apiService.request<APIGetProductCategories>({
+      const data = await apiService.request({
         url: "/api/productCategories",
         method: "get",
       });
@@ -26,7 +25,6 @@ export default function Header() {
 
   return (
     <div className="bg-white">
-      {/* Mobile menu */}
       <HeaderMobile
         {...{
           productCategories,

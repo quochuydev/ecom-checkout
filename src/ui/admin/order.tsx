@@ -1,5 +1,6 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+"use client";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -7,8 +8,8 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-} from '@/components/ui/breadcrumb';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/breadcrumb";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -16,16 +17,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
   CardFooter,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableHeader,
@@ -33,8 +34,8 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from '@/components/ui/table';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Component() {
   return (

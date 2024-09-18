@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { Product } from "@/types/api";
 import Home from "@/ui/home";
 
 export default async function Page() {
@@ -24,10 +23,5 @@ export default async function Page() {
     }),
   ]).catch(() => [[], []]);
 
-  return (
-    <Home
-      products={products as Product[]}
-      productCategories={productCategories}
-    />
-  );
+  return <Home products={products} productCategories={productCategories} />;
 }

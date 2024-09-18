@@ -1,4 +1,4 @@
-import { APIService } from "@ecom/types";
+import { APIService } from "@/types";
 
 export type ApiV1AdminFileCreate = APIService<
   "api.v1.admin.file.create",

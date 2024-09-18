@@ -1,8 +1,9 @@
-'use client';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import { classNames } from '@/lib/style';
-import { Product } from '@/types/api';
+/* eslint-disable @next/next/no-img-element */
+"use client";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { classNames } from "@/lib/style";
+import { Product } from "@/types";
 import {
   Disclosure,
   DisclosureButton,
@@ -12,10 +13,10 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-} from '@headlessui/react';
-import { StarIcon } from '@heroicons/react/20/solid';
-import { HeartIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { ToastContainer, toast } from 'react-toastify';
+} from "@headlessui/react";
+import { StarIcon } from "@heroicons/react/20/solid";
+import { HeartIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ProductUI({
   product,
@@ -55,8 +56,8 @@ export default function ProductUI({
                           </span>
                           <span
                             className={classNames(
-                              selected ? 'ring-indigo-500' : 'ring-transparent',
-                              'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2',
+                              selected ? "ring-indigo-500" : "ring-transparent",
+                              "pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2"
                             )}
                             aria-hidden="true"
                           />
@@ -80,7 +81,6 @@ export default function ProductUI({
               </TabPanels>
             </TabGroup>
 
-            {/* Product info */}
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">
                 {product.name}
@@ -93,7 +93,6 @@ export default function ProductUI({
                 </p>
               </div>
 
-              {/* Reviews */}
               <div className="mt-3">
                 <h3 className="sr-only">Reviews</h3>
                 <div className="flex items-center">
@@ -103,9 +102,9 @@ export default function ProductUI({
                         key={rating}
                         className={classNames(
                           product.rating > rating
-                            ? 'text-indigo-500'
-                            : 'text-gray-300',
-                          'h-5 w-5 flex-shrink-0',
+                            ? "text-indigo-500"
+                            : "text-gray-300",
+                          "h-5 w-5 flex-shrink-0"
                         )}
                         aria-hidden="true"
                       />
@@ -129,7 +128,7 @@ export default function ProductUI({
                   <button
                     type="button"
                     onClick={() => {
-                      toast.success('Added to bag');
+                      toast.success("Added to bag");
                     }}
                     className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                   >
@@ -163,8 +162,8 @@ export default function ProductUI({
                             <DisclosureButton className="group relative flex w-full items-center justify-between py-6 text-left">
                               <span
                                 className={classNames(
-                                  open ? 'text-indigo-600' : 'text-gray-900',
-                                  'text-sm font-medium',
+                                  open ? "text-indigo-600" : "text-gray-900",
+                                  "text-sm font-medium"
                                 )}
                               >
                                 {detail.name}
@@ -244,7 +243,7 @@ export default function ProductUI({
                     <a
                       type="button"
                       onClick={() => {
-                        toast.success('Added to bag');
+                        toast.success("Added to bag");
                       }}
                       className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
                     >

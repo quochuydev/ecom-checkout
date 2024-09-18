@@ -1,7 +1,6 @@
-import React from 'react';
-import { prisma } from '@/lib/prisma';
-import Products from '@/ui/admin/products';
-import { Product } from '@/types/api';
+import React from "react";
+import { prisma } from "@/lib/prisma";
+import Products from "@/ui/admin/products";
 
 export default async function Page() {
   const products = await prisma.product.findMany({
@@ -10,5 +9,5 @@ export default async function Page() {
     },
   });
 
-  return <Products products={products as Product[]} />;
+  return <Products products={products} />;
 }

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:7.2
+    ports:
+      - 6379:6379
+
+  postgres:
+    container_name: postgres
+    image: postgres:16-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: myapp

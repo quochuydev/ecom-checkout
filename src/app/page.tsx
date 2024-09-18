@@ -1,24 +1,33 @@
-import { BlogPostsPreview } from "@/components/BlogPostPreview";
-import { BlogPostsPagination } from "@/components/BlogPostsPagination";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { wisp } from "@/lib/wisp";
+import { prisma } from "@/lib/prisma";
+import { Product } from "@/types/api";
+import Home from "@/ui/home";
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  const page = searchParams.page ? parseInt(searchParams.page as string) : 1;
-  const result = await wisp.getPosts({ limit: 6, page });
+export default async function Page() {
+  const [products, productCategories] = await Promise.all([
+    prisma.product.findMany({
+      include: {
+        images: true,
+        productCategories: true,
+      },
+      take: 8,
+      orderBy: {
+        createdDate: "desc",
+      },
+    }),
+    prisma.productCategory.findMany({
+      include: {
+        image: true,
+      },
+      orderBy: {
+        createdDate: "desc",
+      },
+    }),
+  ]).catch(() => [[], []]);
+
   return (
-    <div className="container mx-auto px-5 mb-10">
-      <Header />
-      <BlogPostsPreview posts={result.posts} />
-      <BlogPostsPagination pagination={result.pagination} />
-      <Footer />
-    </div>
+    <Home
+      products={products as Product[]}
+      productCategories={productCategories}
+    />
   );
-};
-
-export default Page;
+}

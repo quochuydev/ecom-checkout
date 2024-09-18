@@ -1,52 +1,35 @@
-import { ThemeProvider } from "@/components/theme-provider";
-import { config } from "@/config";
-import { signOgImageUrl } from "@/lib/og-image";
-import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import Providers from "@/components/ReactQueryProviders";
+import { Metadata } from "next";
 import "./globals.css";
-
-const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: {
-    absolute: config.blog.metadata.title.absolute,
-    default: config.blog.metadata.title.default,
-    template: config.blog.metadata.title.template,
+    default: "E-commerce",
+    template: "%s | Next.js App Router",
   },
-  description: config.blog.metadata.description,
+  description:
+    "A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.",
   openGraph: {
-    title: config.blog.metadata.title.default,
-    description: config.blog.metadata.description,
-    images: [
-      signOgImageUrl({
-        title: config.blog.name,
-      }),
-    ],
+    title: "Next.js App Router Playground",
+    description:
+      "A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.",
+    images: [`/api/og?title=Next.js App Router`],
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased m-auto",
-          fontSans.variable
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main>{children}</main>
-        </ThemeProvider>
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

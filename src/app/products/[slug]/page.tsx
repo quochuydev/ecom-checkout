@@ -2,7 +2,7 @@ import React from "react";
 import ProductUI from "@/ui/product";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { Product } from "@ecom/types/api";
+import { Product } from "@ecom/types";
 
 export default async function Page({ params: { slug } }: any) {
   const product = await prisma.product

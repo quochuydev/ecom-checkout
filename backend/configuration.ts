@@ -14,7 +14,7 @@ if (process.env.ENV_PATH) {
 }
 
 const schema = z.object({
-  port: z.number(),
+  port: z.coerce.number(),
   buildVersion: z.string().optional(),
   redis: z.object({
     url: z.string().optional(),

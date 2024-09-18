@@ -24,7 +24,15 @@ export async function startServer(options: {
 
   const app = express();
 
-  app.use(cors({ credentials: true, origin: true }));
+  app.use(
+    cors({
+      // credentials: true,
+      // origin: true,
+      origin: 'http://localhost:3333',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    })
+  );
   app.use(bodyParser.json({}));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());

@@ -5,6 +5,7 @@ import ApiV1AdminProductAddImages from './apis/api.v1.admin.product.addImages.ts
 import ApiV1AdminProductCreate from './apis/api.v1.admin.product.create.ts';
 import ApiV1AdminProductGetList from './apis/api.v1.admin.product.getList.ts';
 import ApiV1AdminProductUpdate from './apis/api.v1.admin.product.update.ts';
+import ApiV1AdminProductCategoryGetList from './apis/api.v1.admin.productCategory.getList.ts';
 import ApiV1AuthAuthorize from './apis/api.v1.auth.authorize.ts';
 import ApiV1AuthLogin from './apis/api.v1.auth.login.ts';
 import ApiV1WebCartAddItem from './apis/api.v1.web.cart.addItem.ts';
@@ -29,6 +30,7 @@ export const handlers = [
   ApiV1AdminProductCreate,
   ApiV1AdminProductGetList,
   ApiV1AdminProductUpdate,
+  ApiV1AdminProductCategoryGetList,
   ApiV1AuthAuthorize,
   ApiV1AuthLogin,
   ApiV1WebCartAddItem,

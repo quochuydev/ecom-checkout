@@ -29,7 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Product } from "@ecom/types/api";
+import { Product } from "@ecom/types";
 import { useRouter } from "next/navigation";
 
 export default function Products({ products }: { products: Product[] }) {
@@ -109,8 +109,7 @@ export default function Products({ products }: { products: Product[] }) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>name</TableHead>
-                <TableHead>sku</TableHead>
+                <TableHead>title</TableHead>
                 <TableHead className="text-right">price</TableHead>
                 <TableHead className="text-right">regularPrice</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -120,9 +119,8 @@ export default function Products({ products }: { products: Product[] }) {
               {products.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>
-                    <a href={`/admin/products/${item.id}`}>{item.name}</a>
+                    <a href={`/admin/products/${item.id}`}>{item.title}</a>
                   </TableCell>
-                  <TableCell>{item.sku}</TableCell>
                   <TableCell className="text-right">{item.price}</TableCell>
                   <TableCell className="text-right">
                     {item.regularPrice}
@@ -135,7 +133,9 @@ export default function Products({ products }: { products: Product[] }) {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View</DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <a href={`/admin/products/${item.id}`}>View</a>
+                        </DropdownMenuItem>
                         <DropdownMenuItem>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -175,7 +175,7 @@ export default function Products({ products }: { products: Product[] }) {
   );
 }
 
-function FilterIcon(props) {
+function FilterIcon(props: any) {
   return (
     <svg
       {...props}
@@ -194,7 +194,7 @@ function FilterIcon(props) {
   );
 }
 
-function ListOrderedIcon(props) {
+function ListOrderedIcon(props: any) {
   return (
     <svg
       {...props}
@@ -218,7 +218,7 @@ function ListOrderedIcon(props) {
   );
 }
 
-function MoveHorizontalIcon(props) {
+function MoveHorizontalIcon(props: any) {
   return (
     <svg
       {...props}
@@ -239,7 +239,7 @@ function MoveHorizontalIcon(props) {
   );
 }
 
-function SearchIcon(props) {
+function SearchIcon(props: any) {
   return (
     <svg
       {...props}

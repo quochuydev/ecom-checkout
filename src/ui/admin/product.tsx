@@ -19,35 +19,66 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { Toggle } from "@/components/ui/toggle";
 import { ApiService } from "@/lib/api-caller";
-import { APIGetProducts, APIUpdateProduct } from "@ecom/types/api.product";
+import {
+  ApiV1AdminProductUpdate,
+  ApiV1AdminProductGetList,
+  ApiV1AdminProductCategoryGetList,
+} from "@ecom/types";
+import { API } from "@ecom/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-export default function Product({ appUrl, productId }: any) {
-  const apiService = ApiService(appUrl);
+export default function Product({
+  apiUrl,
+  productId,
+}: {
+  apiUrl: string;
+  productId: string;
+}) {
+  const apiService = ApiService(apiUrl);
+
+  const { data: productCategories } = useQuery({
+    queryKey: ["productCategories"],
+    queryFn: async () => {
+      const data = await apiService.request<
+        API<ApiV1AdminProductCategoryGetList>
+      >({
+        url: "/api/api.v1.admin.productCategory.getList",
+      });
+
+      return data?.items || [];
+    },
+  });
 
   const schema = z.object({
-    name: z.string().trim(),
-    description: z.string().trim(),
-    price: z.string(),
-    regularPrice: z.string(),
-    category: z.string().trim(),
-    sku: z.string().trim(),
-    status: z.string().trim(),
+    title: z.string().trim(),
+    description: z.string().trim().optional(),
+    price: z.coerce.number(),
+    regularPrice: z.coerce.number(),
+    categoryId: z.string().trim().optional(),
     imageIds: z.array(z.string().trim()).optional(),
+  });
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      title: "",
+      description: "",
+      price: 0,
+      regularPrice: 0,
+    },
   });
 
   const {
@@ -56,31 +87,23 @@ export default function Product({ appUrl, productId }: any) {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-  });
+  } = form;
 
   useQuery({
     queryKey: ["product", productId],
     queryFn: async () => {
-      const data = await apiService.request<APIGetProducts>({
-        url: "/api/products",
-        method: "get",
-        query: {
-          productIds: productId,
-        },
+      const data = await apiService.request<API<ApiV1AdminProductGetList>>({
+        url: "/api/api.v1.admin.product.getList",
       });
 
-      const product = data?.items?.[0];
+      const product = data?.items.find((e) => e.id === productId);
 
       if (product) {
         reset({
-          name: product?.name,
-          description: product?.description,
-          price: String(product?.price),
-          regularPrice: product?.regularPrice,
-          sku: product?.sku,
-          status: product?.status || "publish",
+          title: product.title,
+          description: product.description || "",
+          price: product.price,
+          regularPrice: product.regularPrice,
         });
       }
 
@@ -89,293 +112,194 @@ export default function Product({ appUrl, productId }: any) {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    await apiService.request<APIUpdateProduct>({
-      url: "/api/products/{id}",
-      method: "put",
-      params: {
-        id: productId,
-      },
+    await apiService.request<API<ApiV1AdminProductUpdate>>({
+      url: "/api/api.v1.admin.product.update",
       data: {
-        ...data,
-        price: parseInt(data.price),
-        regularPrice: parseInt(data.regularPrice),
+        id: productId,
+        title: data.title,
+        description: data.description,
+        price: data.price,
+        regularPrice: data.regularPrice,
       },
     });
   });
 
   return (
     <Layout>
-      <form onSubmit={onSubmit}>
-        <main className="flex flex-col gap-6">
-          <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">Edit Product</h1>
-            <div className="ml-auto flex gap-2">
-              <Button variant="outline" size="sm">
-                Discard
-              </Button>
-              <Button size="sm" type="submit">
-                Save Product
-              </Button>
+      <Form {...form}>
+        <form onSubmit={onSubmit} className="w-full space-y-8">
+          <main className="flex flex-col gap-6">
+            <div className="flex items-center">
+              <h1 className="text-lg font-semibold md:text-2xl">
+                Edit Product
+              </h1>
+              <div className="ml-auto flex gap-2">
+                <Button variant="outline" size="sm">
+                  Discard
+                </Button>
+                <Button size="sm" type="submit">
+                  {"Save Product"}
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className="grid gap-6 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
-            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Product Details</CardTitle>
-                  <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-3">
+            <div className="grid gap-6 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
+              <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Product Details</CardTitle>
+                    <CardDescription>
+                      Lipsum dolor sit amet, consectetur adipiscing elit
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
                     <div className="grid gap-3">
-                      <Label htmlFor="name">Name</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        className="w-full"
-                        defaultValue="Gamer Gear Pro Controller"
-                        {...register("name")}
-                      />
-                    </div>
-                    <p className="text-xs text-red-500">
-                      {errors.name?.message}
-                    </p>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="name">Sku</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        className="w-full"
-                        defaultValue="Gamer Gear Pro Controller"
-                        {...register("sku")}
-                      />
-                    </div>
-                    <p className="text-xs text-red-500">
-                      {errors.sku?.message}
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-3">
                       <div className="grid gap-3">
-                        <Label htmlFor="name">price</Label>
+                        <Label htmlFor="title">Title</Label>
                         <Input
-                          id="name"
-                          type="number"
+                          id="title"
+                          type="text"
                           className="w-full"
-                          {...register("price")}
+                          defaultValue="Gamer Gear Pro Controller"
+                          {...register("title")}
                         />
-                        <p className="text-xs text-red-500">
-                          {errors.price?.message}
-                        </p>
                       </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="name">Regular price</Label>
-                        <Input
-                          id="name"
-                          type="number"
-                          className="w-full"
-                          {...register("regularPrice")}
-                        />
-                        <p className="text-xs text-red-500">
-                          {errors.regularPrice?.message}
-                        </p>
-                      </div>
-                    </div>
+                      <p className="text-xs text-red-500">
+                        {errors.title?.message}
+                      </p>
 
-                    <div className="grid grid-cols-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <FormField
+                          control={form.control}
+                          name="price"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Price</FormLabel>
+                              <FormControl>
+                                <Input type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="regularPrice"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Regular price</FormLabel>
+                              <FormControl>
+                                <Input type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-3">
+                        <div className="grid gap-3">
+                          <Label htmlFor="categoryId">Category</Label>
+                          <Select {...register("categoryId")}>
+                            <SelectTrigger
+                              id="category"
+                              aria-label="Select category"
+                            >
+                              <SelectValue placeholder="Select category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {productCategories?.map((productCategory) => (
+                                <SelectItem
+                                  key={productCategory.id}
+                                  value={productCategory.id}
+                                >
+                                  {productCategory.title}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
                       <div className="grid gap-3">
-                        <Label htmlFor="category">Category</Label>
-                        <Select
-                          {...register("category")}
-                          defaultValue="clothing"
-                        >
-                          <SelectTrigger
-                            id="category"
-                            aria-label="Select category"
-                          >
-                            <SelectValue placeholder="Select category" />
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea
+                          id="description"
+                          defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
+                          className="min-h-32"
+                          {...register("description")}
+                        />
+                      </div>
+                      <p className="text-xs text-red-500">
+                        {errors.description?.message}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Product Status</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-6">
+                      <div className="grid gap-3">
+                        <Label htmlFor="status">Status</Label>
+                        <Select>
+                          <SelectTrigger id="status" aria-label="Select status">
+                            <SelectValue placeholder="Select status" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="clothing">Clothing</SelectItem>
-                            <SelectItem value="electronics">
-                              Electronics
-                            </SelectItem>
-                            <SelectItem value="accessories">
-                              Accessories
-                            </SelectItem>
+                            <SelectItem value="published">Active</SelectItem>
+                            <SelectItem value="draft">Draft</SelectItem>
+                            <SelectItem value="archived">Archived</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="description">Description</Label>
-                      <Textarea
-                        id="description"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
-                        className="min-h-32"
-                        {...register("description")}
-                      />
-                    </div>
-                    <p className="text-xs text-red-500">
-                      {errors.description?.message}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="hidden">
-                <CardHeader>
-                  <CardTitle>Stock</CardTitle>
-                  <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table style={{ textWrap: "nowrap" }}>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>SKU</TableHead>
-                        <TableHead>Stock</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead>Size</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {[
-                        {
-                          sku: "GGPC-001",
-                          stock: 100,
-                          price: 99.99,
-                          size: ["S", "M", "L"],
-                        },
-                      ].map((variant) => (
-                        <TableRow key={variant.sku}>
-                          <TableCell>
-                            <Label htmlFor="sku" className="sr-only">
-                              sku
-                            </Label>
-                            <Input id="sku" />
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="stock-1" className="sr-only">
-                              Stock
-                            </Label>
-                            <Input
-                              id="stock-1"
-                              type="number"
-                              defaultValue={variant.stock}
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="price" className="sr-only">
-                              Price
-                            </Label>
-                            <Input
-                              id="price"
-                              type="number"
-                              {...register("price")}
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Label htmlFor="regularPrice" className="sr-only">
-                              Price
-                            </Label>
-                            <Input
-                              id="regularPrice"
-                              type="number"
-                              {...register("regularPrice")}
-                            />
-                          </TableCell>
-                          <TableCell className="flex gap-2">
-                            <Toggle defaultValue="s" variant="outline">
-                              S
-                            </Toggle>
-                            <Toggle defaultValue="s" variant="outline">
-                              M
-                            </Toggle>
-                            <Toggle defaultValue="s" variant="outline">
-                              L
-                            </Toggle>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-                <CardFooter className="justify-center border-t p-4">
-                  <Button size="sm" variant="ghost" className="gap-1">
-                    <CirclePlusIcon className="h-3.5 w-3.5" />
-                    Add Variant
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-
-            <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Product Status</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-6">
-                    <div className="grid gap-3">
-                      <Label htmlFor="status">Status</Label>
-                      <Select>
-                        <SelectTrigger id="status" aria-label="Select status">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="published">Active</SelectItem>
-                          <SelectItem value="draft">Draft</SelectItem>
-                          <SelectItem value="archived">Archived</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="overflow-hidden">
-                <CardHeader>
-                  <CardTitle>Product Images</CardTitle>
-                  <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-2">
-                    <div className="grid grid-cols-3 gap-2">
-                      <button
-                        type="button"
-                        className="bg-muted flex h-20 items-center justify-center rounded-md"
-                      >
-                        <FileUpload
-                          onUpload={(fileId) => {
-                            console.log("fileId", fileId);
-                            setValue("imageIds", [fileId]);
-                          }}
+                  </CardContent>
+                </Card>
+                <Card className="overflow-hidden">
+                  <CardHeader>
+                    <CardTitle>Product Images</CardTitle>
+                    <CardDescription>
+                      Lipsum dolor sit amet, consectetur adipiscing elit
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-2">
+                      <div className="grid grid-cols-3 gap-2">
+                        <button
+                          type="button"
+                          className="bg-muted flex h-20 items-center justify-center rounded-md"
                         >
-                          <UploadIcon
-                            className="text-muted-foreground h-6 w-6"
-                            aria-hidden="true"
-                          />
-                        </FileUpload>
-                      </button>
+                          <FileUpload
+                            onUpload={(fileId) => {
+                              console.log("fileId", fileId);
+                              setValue("imageIds", [fileId]);
+                            }}
+                          >
+                            <UploadIcon
+                              className="text-muted-foreground h-6 w-6"
+                              aria-hidden="true"
+                            />
+                          </FileUpload>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </div>
-        </main>
-      </form>
+          </main>
+        </form>
+      </Form>
     </Layout>
   );
 }
 
-function CirclePlusIcon(props) {
+function CirclePlusIcon(props: any) {
   return (
     <svg
       {...props}
@@ -396,7 +320,7 @@ function CirclePlusIcon(props) {
   );
 }
 
-function UploadIcon(props) {
+function UploadIcon(props: any) {
   return (
     <svg
       {...props}

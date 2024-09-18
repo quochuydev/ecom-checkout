@@ -201,7 +201,7 @@ export default function Component({ orders = [] }: { orders: Order[] }) {
   );
 }
 
-function FilterIcon(props) {
+function FilterIcon(props: any) {
   return (
     <svg
       {...props}
@@ -220,7 +220,7 @@ function FilterIcon(props) {
   );
 }
 
-function HomeIcon(props) {
+function HomeIcon(props: any) {
   return (
     <svg
       {...props}
@@ -240,7 +240,7 @@ function HomeIcon(props) {
   );
 }
 
-function LineChartIcon(props) {
+function LineChartIcon(props: any) {
   return (
     <svg
       {...props}
@@ -260,7 +260,7 @@ function LineChartIcon(props) {
   );
 }
 
-function ListOrderedIcon(props) {
+function ListOrderedIcon(props: any) {
   return (
     <svg
       {...props}
@@ -284,7 +284,7 @@ function ListOrderedIcon(props) {
   );
 }
 
-function MenuIcon(props) {
+function MenuIcon(props: any) {
   return (
     <svg
       {...props}
@@ -305,7 +305,7 @@ function MenuIcon(props) {
   );
 }
 
-function MoveHorizontalIcon(props) {
+function MoveHorizontalIcon(props: any) {
   return (
     <svg
       {...props}
@@ -326,7 +326,7 @@ function MoveHorizontalIcon(props) {
   );
 }
 
-function Package2Icon(props) {
+function Package2Icon(props: any) {
   return (
     <svg
       {...props}
@@ -347,7 +347,7 @@ function Package2Icon(props) {
   );
 }
 
-function PackageIcon(props) {
+function PackageIcon(props: any) {
   return (
     <svg
       {...props}
@@ -369,7 +369,7 @@ function PackageIcon(props) {
   );
 }
 
-function SearchIcon(props) {
+function SearchIcon(props: any) {
   return (
     <svg
       {...props}
@@ -389,7 +389,7 @@ function SearchIcon(props) {
   );
 }
 
-function ShoppingCartIcon(props) {
+function ShoppingCartIcon(props: any) {
   return (
     <svg
       {...props}
@@ -410,7 +410,7 @@ function ShoppingCartIcon(props) {
   );
 }
 
-function UsersIcon(props) {
+function UsersIcon(props: any) {
   return (
     <svg
       {...props}

@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import useTranslations from 'next-translate/useTranslation';
-import { useForm } from 'react-hook-form';
-import type { z } from 'zod';
-import { array, number, object, string } from 'zod';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import useTranslations from "next-translate/useTranslation";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { array, number, object, string } from "zod";
 
 const cart = {
   items: [
     {
-      id: 'id',
+      id: "id",
       image:
-        'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-      title: 'title title title title title',
-      href: '#',
+        "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
+      title: "title title title title title",
+      href: "#",
       price: 20,
       quantity: 3,
       itemTotal: 60,
@@ -24,7 +24,7 @@ const cart = {
 };
 
 export default function Page() {
-  const { t } = useTranslations('common');
+  const { t } = useTranslations("common");
 
   const schema = object({
     contact: object({
@@ -46,13 +46,13 @@ export default function Page() {
         image: string().trim(),
         title: string().trim(),
         href: string().trim(),
-        price: number(),
-        quantity: number(),
-        itemTotal: number(),
-      }),
+        price: z.coerce.number(),
+        quantity: z.coerce.number(),
+        itemTotal: z.coerce.number(),
+      })
     ),
-    subtotal: number(),
-    total: number(),
+    subtotal: z.coerce.number(),
+    total: z.coerce.number(),
   });
 
   const { register, handleSubmit } = useForm<z.infer<typeof schema>>({
@@ -78,7 +78,7 @@ export default function Page() {
         >
           <div>
             <h2 className="text-lg font-medium text-gray-900">
-              {t('CONTACT_INFORMATION')}
+              {t("CONTACT_INFORMATION")}
             </h2>
 
             <div className="mt-4">
@@ -90,7 +90,7 @@ export default function Page() {
               </label>
               <div className="mt-1">
                 <input
-                  {...register('contact.email')}
+                  {...register("contact.email")}
                   name="contact.email"
                   type="email"
                   id="email-address"
@@ -115,7 +115,7 @@ export default function Page() {
                   </label>
                   <div className="mt-1">
                     <input
-                      {...register('shipping.firstName')}
+                      {...register("shipping.firstName")}
                       name="shipping.firstName"
                       type="text"
                       id="first-name"
@@ -134,7 +134,7 @@ export default function Page() {
                   </label>
                   <div className="mt-1">
                     <input
-                      {...register('shipping.lastName')}
+                      {...register("shipping.lastName")}
                       name="shipping.lastName"
                       type="text"
                       id="last-name"
@@ -154,7 +154,7 @@ export default function Page() {
                   <div className="mt-1">
                     <input
                       type="text"
-                      {...register('shipping.phoneNumber')}
+                      {...register("shipping.phoneNumber")}
                       name="shipping.phoneNumber"
                       id="phone"
                       autoComplete="tel"
@@ -173,7 +173,7 @@ export default function Page() {
                   <div className="mt-1">
                     <input
                       type="text"
-                      {...register('shipping.address')}
+                      {...register("shipping.address")}
                       name="shipping.address"
                       id="address"
                       autoComplete="street-address"
@@ -192,7 +192,7 @@ export default function Page() {
                   <div className="mt-1">
                     <input
                       type="text"
-                      {...register('shipping.city')}
+                      {...register("shipping.city")}
                       name="shipping.city"
                       id="city"
                       className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -210,7 +210,7 @@ export default function Page() {
                   <div className="mt-1">
                     <select
                       id="country"
-                      {...register('shipping.country')}
+                      {...register("shipping.country")}
                       name="shipping.country"
                       autoComplete="country"
                       className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -232,7 +232,7 @@ export default function Page() {
                   <div className="mt-1">
                     <input
                       type="text"
-                      {...register('shipping.province')}
+                      {...register("shipping.province")}
                       name="shipping.province"
                       id="province"
                       className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -250,7 +250,7 @@ export default function Page() {
                   <div className="mt-1">
                     <input
                       type="text"
-                      {...register('shipping.postalCode')}
+                      {...register("shipping.postalCode")}
                       name="shipping.postalCode"
                       id="postal-code"
                       autoComplete="postal-code"

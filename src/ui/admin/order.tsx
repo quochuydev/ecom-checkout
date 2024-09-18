@@ -352,7 +352,7 @@ export default function Component() {
   );
 }
 
-function BellIcon(props) {
+function BellIcon(props: any) {
   return (
     <svg
       {...props}
@@ -372,7 +372,7 @@ function BellIcon(props) {
   );
 }
 
-function CheckIcon(props) {
+function CheckIcon(props: any) {
   return (
     <svg
       {...props}
@@ -391,7 +391,7 @@ function CheckIcon(props) {
   );
 }
 
-function HomeIcon(props) {
+function HomeIcon(props: any) {
   return (
     <svg
       {...props}
@@ -411,7 +411,7 @@ function HomeIcon(props) {
   );
 }
 
-function LineChartIcon(props) {
+function LineChartIcon(props: any) {
   return (
     <svg
       {...props}
@@ -431,7 +431,7 @@ function LineChartIcon(props) {
   );
 }
 
-function MenuIcon(props) {
+function MenuIcon(props: any) {
   return (
     <svg
       {...props}
@@ -452,7 +452,7 @@ function MenuIcon(props) {
   );
 }
 
-function Package2Icon(props) {
+function Package2Icon(props: any) {
   return (
     <svg
       {...props}
@@ -473,7 +473,7 @@ function Package2Icon(props) {
   );
 }
 
-function PackageIcon(props) {
+function PackageIcon(props: any) {
   return (
     <svg
       {...props}
@@ -495,7 +495,7 @@ function PackageIcon(props) {
   );
 }
 
-function SearchIcon(props) {
+function SearchIcon(props: any) {
   return (
     <svg
       {...props}
@@ -515,7 +515,7 @@ function SearchIcon(props) {
   );
 }
 
-function ShoppingCartIcon(props) {
+function ShoppingCartIcon(props: any) {
   return (
     <svg
       {...props}
@@ -536,7 +536,7 @@ function ShoppingCartIcon(props) {
   );
 }
 
-function TruckIcon(props) {
+function TruckIcon(props: any) {
   return (
     <svg
       {...props}
@@ -559,7 +559,7 @@ function TruckIcon(props) {
   );
 }
 
-function UsersIcon(props) {
+function UsersIcon(props: any) {
   return (
     <svg
       {...props}

@@ -30,24 +30,22 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import { ApiService } from "@/lib/api-caller";
-import { APICreateProduct } from "@ecom/types/api.product";
+import { API, ApiV1AdminProductCreate } from "@ecom/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-export default function NewProduct({ appUrl }: any) {
+export default function NewProduct({ apiUrl }: { apiUrl: string }) {
   const router = useRouter();
-  const apiService = ApiService(appUrl);
+  const apiService = ApiService(apiUrl);
 
   const schema = z.object({
-    name: z.string().min(1).trim(),
+    title: z.string().min(1).trim(),
     description: z.string().trim(),
-    price: z.string().min(0),
-    regularPrice: z.string().min(0),
-    category: z.string().trim(),
-    sku: z.string().trim().min(1),
-    status: z.string().trim().min(1),
+    price: z.coerce.number(),
+    regularPrice: z.coerce.number(),
+    categoryId: z.string().trim(),
     imageIds: z.array(z.string().trim()).min(0),
   });
 
@@ -58,23 +56,21 @@ export default function NewProduct({ appUrl }: any) {
     formState: { errors },
   } = useForm<z.infer<typeof schema>>({
     defaultValues: {
-      sku: "sku",
-      price: "0",
-      regularPrice: "0",
-      status: "published",
+      price: 0,
+      regularPrice: 0,
       imageIds: [],
-      category: "clothing",
     },
     resolver: zodResolver(schema),
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const product = await apiService.request<APICreateProduct>({
-      url: "/api/products",
+    const product = await apiService.request<API<ApiV1AdminProductCreate>>({
+      url: "/api/api.v1.admin.product.create",
       data: {
-        ...data,
-        price: parseInt(data.price),
-        regularPrice: parseInt(data.regularPrice),
+        title: data.title,
+        description: data.description,
+        price: data.price,
+        regularPrice: data.regularPrice,
       },
     });
 
@@ -109,38 +105,24 @@ export default function NewProduct({ appUrl }: any) {
                 <CardContent>
                   <div className="grid gap-3">
                     <div className="grid gap-3">
-                      <Label htmlFor="name">Name</Label>
+                      <Label htmlFor="title">Title</Label>
                       <Input
-                        id="name"
+                        id="title"
                         type="text"
                         className="w-full"
                         defaultValue="Gamer Gear Pro Controller"
-                        {...register("name")}
+                        {...register("title")}
                       />
                     </div>
                     <p className="text-xs text-red-500">
-                      {errors.name?.message}
-                    </p>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="name">Sku</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        className="w-full"
-                        defaultValue="Gamer Gear Pro Controller"
-                        {...register("sku")}
-                      />
-                    </div>
-                    <p className="text-xs text-red-500">
-                      {errors.sku?.message}
+                      {errors.title?.message}
                     </p>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div className="grid gap-3">
-                        <Label htmlFor="name">price</Label>
+                        <Label htmlFor="price">price</Label>
                         <Input
-                          id="name"
+                          id="price"
                           type="number"
                           className="w-full"
                           {...register("price")}
@@ -150,9 +132,9 @@ export default function NewProduct({ appUrl }: any) {
                         </p>
                       </div>
                       <div className="grid gap-3">
-                        <Label htmlFor="name">Regular price</Label>
+                        <Label htmlFor="regularPrice">Regular price</Label>
                         <Input
-                          id="name"
+                          id="regularPrice"
                           type="number"
                           className="w-full"
                           {...register("regularPrice")}
@@ -166,10 +148,7 @@ export default function NewProduct({ appUrl }: any) {
                     <div className="grid grid-cols-3">
                       <div className="grid gap-3">
                         <Label htmlFor="category">Category</Label>
-                        <Select
-                          {...register("category")}
-                          defaultValue="clothing"
-                        >
+                        <Select {...register("categoryId")}>
                           <SelectTrigger
                             id="category"
                             aria-label="Select category"
@@ -354,7 +333,7 @@ export default function NewProduct({ appUrl }: any) {
   );
 }
 
-function CirclePlusIcon(props) {
+function CirclePlusIcon(props: any) {
   return (
     <svg
       {...props}
@@ -375,7 +354,7 @@ function CirclePlusIcon(props) {
   );
 }
 
-function UploadIcon(props) {
+function UploadIcon(props: any) {
   return (
     <svg
       {...props}

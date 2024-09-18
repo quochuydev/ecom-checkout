@@ -72,5 +72,5 @@ export type ProductCategory = {
   slug: string;
   description?: string;
   products?: Product[];
-  image: Image;
+  image: Image | null;
 };

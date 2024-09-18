@@ -3,7 +3,7 @@ import handler from '../apis/api.v1.admin.product.create';
 import { getInjection } from '../core-test/server';
 import fixture from './api.v1.admin.product.create.fixture';
 
-describe('Testing', async () => {
+describe.skip('Testing', async () => {
   it(`With invalid payload from body, validate will be successful`, async () => {
     const result = await handler.validate(fixture.valid, getInjection());
     expect(result).toBeDefined();

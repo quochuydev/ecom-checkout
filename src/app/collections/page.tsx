@@ -1,7 +1,7 @@
-import React from 'react';
-import Collections from '@/ui/collections';
-import { prisma } from '@/lib/prisma';
-import { Product } from '@/types/types';
+import React from "react";
+import Collections from "@/ui/collections";
+import { prisma } from "@/lib/prisma";
+import { Product } from "@ecom/types/types";
 
 export default async function Page() {
   const [products, productCategories] = await Promise.all([

@@ -20,8 +20,8 @@ model ProductCategory {
     slug        String
     createdDate DateTime  @default(now())
     updatedDate DateTime  @updatedAt
-    imageId     String
-    image       Image     @relation(fields: [imageId], references: [id])
+    imageId     String?
+    image       Image?    @relation(fields: [imageId], references: [id])
     products    Product[]
 }
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import ProductUI from '@/ui/product';
-import { prisma } from '@/lib/prisma';
-import { redirect } from 'next/navigation';
-import { Product } from '@/types/api';
+import React from "react";
+import ProductUI from "@/ui/product";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { Product } from "@ecom/types/api";
 
 export default async function Page({ params: { slug } }: any) {
   const product = await prisma.product
@@ -16,7 +16,7 @@ export default async function Page({ params: { slug } }: any) {
     })
     .catch(() => null);
 
-  if (!product) redirect('/');
+  if (!product) redirect("/");
 
   const products = await prisma.product.findMany({
     include: {

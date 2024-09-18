@@ -19,6 +19,7 @@ import ApiV1WebCustomerCreate from './apis/api.v1.web.customer.create.ts';
 import ApiV1WebCustomerGet from './apis/api.v1.web.customer.get.ts';
 import ApiV1WebProductGet from './apis/api.v1.web.product.get.ts';
 import ApiV1WebProductGetList from './apis/api.v1.web.product.getList.ts';
+import ApiV1WebProductCategoryGetList from './apis/api.v1.web.productCategory.getList.ts';
 
 export const handlers = [
   ApiV1AdminFileCreate,
@@ -41,5 +42,6 @@ export const handlers = [
   ApiV1WebCustomerCreate,
   ApiV1WebCustomerGet,
   ApiV1WebProductGet,
-  ApiV1WebProductGetList
+  ApiV1WebProductGetList,
+  ApiV1WebProductCategoryGetList
 ];

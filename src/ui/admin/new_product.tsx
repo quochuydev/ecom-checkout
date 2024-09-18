@@ -1,7 +1,7 @@
-'use client';
-import FileUpload from '@/components/FileUpload';
-import Layout from '@/components/admin/Layout';
-import { Button } from '@/components/ui/button';
+"use client";
+import FileUpload from "@/components/FileUpload";
+import Layout from "@/components/admin/Layout";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,16 +9,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -26,15 +26,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Textarea } from '@/components/ui/textarea';
-import { Toggle } from '@/components/ui/toggle';
-import { ApiService } from '@/lib/api-caller';
-import { APICreateProduct } from '@/types/api.product';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import z from 'zod';
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
+import { Toggle } from "@/components/ui/toggle";
+import { ApiService } from "@/lib/api-caller";
+import { APICreateProduct } from "@ecom/types/api.product";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import z from "zod";
 
 export default function NewProduct({ appUrl }: any) {
   const router = useRouter();
@@ -58,19 +58,19 @@ export default function NewProduct({ appUrl }: any) {
     formState: { errors },
   } = useForm<z.infer<typeof schema>>({
     defaultValues: {
-      sku: 'sku',
-      price: '0',
-      regularPrice: '0',
-      status: 'published',
+      sku: "sku",
+      price: "0",
+      regularPrice: "0",
+      status: "published",
       imageIds: [],
-      category: 'clothing',
+      category: "clothing",
     },
     resolver: zodResolver(schema),
   });
 
   const onSubmit = handleSubmit(async (data) => {
     const product = await apiService.request<APICreateProduct>({
-      url: '/api/products',
+      url: "/api/products",
       data: {
         ...data,
         price: parseInt(data.price),
@@ -78,7 +78,7 @@ export default function NewProduct({ appUrl }: any) {
       },
     });
 
-    console.log('product', product);
+    console.log("product", product);
     router.replace(`/admin/products/${product.id}`);
   });
 
@@ -115,7 +115,7 @@ export default function NewProduct({ appUrl }: any) {
                         type="text"
                         className="w-full"
                         defaultValue="Gamer Gear Pro Controller"
-                        {...register('name')}
+                        {...register("name")}
                       />
                     </div>
                     <p className="text-xs text-red-500">
@@ -129,7 +129,7 @@ export default function NewProduct({ appUrl }: any) {
                         type="text"
                         className="w-full"
                         defaultValue="Gamer Gear Pro Controller"
-                        {...register('sku')}
+                        {...register("sku")}
                       />
                     </div>
                     <p className="text-xs text-red-500">
@@ -143,7 +143,7 @@ export default function NewProduct({ appUrl }: any) {
                           id="name"
                           type="number"
                           className="w-full"
-                          {...register('price')}
+                          {...register("price")}
                         />
                         <p className="text-xs text-red-500">
                           {errors.price?.message}
@@ -155,7 +155,7 @@ export default function NewProduct({ appUrl }: any) {
                           id="name"
                           type="number"
                           className="w-full"
-                          {...register('regularPrice')}
+                          {...register("regularPrice")}
                         />
                         <p className="text-xs text-red-500">
                           {errors.regularPrice?.message}
@@ -167,7 +167,7 @@ export default function NewProduct({ appUrl }: any) {
                       <div className="grid gap-3">
                         <Label htmlFor="category">Category</Label>
                         <Select
-                          {...register('category')}
+                          {...register("category")}
                           defaultValue="clothing"
                         >
                           <SelectTrigger
@@ -195,7 +195,7 @@ export default function NewProduct({ appUrl }: any) {
                         id="description"
                         defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
                         className="min-h-32"
-                        {...register('description')}
+                        {...register("description")}
                       />
                     </div>
                     <p className="text-xs text-red-500">
@@ -213,7 +213,7 @@ export default function NewProduct({ appUrl }: any) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Table style={{ textWrap: 'nowrap' }}>
+                  <Table style={{ textWrap: "nowrap" }}>
                     <TableHeader>
                       <TableRow>
                         <TableHead>SKU</TableHead>
@@ -225,10 +225,10 @@ export default function NewProduct({ appUrl }: any) {
                     <TableBody>
                       {[
                         {
-                          sku: 'GGPC-001',
+                          sku: "GGPC-001",
                           stock: 100,
                           price: 99.99,
-                          size: ['S', 'M', 'L'],
+                          size: ["S", "M", "L"],
                         },
                       ].map((variant) => (
                         <TableRow key={variant.sku}>
@@ -255,7 +255,7 @@ export default function NewProduct({ appUrl }: any) {
                             <Input
                               id="price"
                               type="number"
-                              {...register('price')}
+                              {...register("price")}
                             />
                           </TableCell>
                           <TableCell>
@@ -265,7 +265,7 @@ export default function NewProduct({ appUrl }: any) {
                             <Input
                               id="regularPrice"
                               type="number"
-                              {...register('regularPrice')}
+                              {...register("regularPrice")}
                             />
                           </TableCell>
                           <TableCell className="flex gap-2">
@@ -332,8 +332,8 @@ export default function NewProduct({ appUrl }: any) {
                       >
                         <FileUpload
                           onUpload={(fileId) => {
-                            console.log('fileId', fileId);
-                            setValue('imageIds', [fileId]);
+                            console.log("fileId", fileId);
+                            setValue("imageIds", [fileId]);
                           }}
                         >
                           <UploadIcon

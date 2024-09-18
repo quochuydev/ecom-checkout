@@ -31,7 +31,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import Layout from "@/components/admin/Layout";
-import { Order } from "@/types";
+import { Order } from "@ecom/types";
 
 export default function Component({ orders = [] }: { orders: Order[] }) {
   const [search, setSearch] = useState("");

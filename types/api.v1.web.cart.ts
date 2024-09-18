@@ -1,5 +1,5 @@
 import { Cart, CartLineItem } from "@prisma/client";
-import { APIService, Product } from "@/types";
+import { APIService, Product } from "@ecom/types";
 
 export type ApiV1WebCartGetOrCreate = APIService<
   "api.v1.web.cart.getOrCreate",

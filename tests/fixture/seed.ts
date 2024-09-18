@@ -1,4 +1,4 @@
-import { ProductCategory } from "@/types";
+import { ProductCategory } from "@ecom/types";
 import {} from "@prisma/client";
 
 const productCategories: ProductCategory[] = [

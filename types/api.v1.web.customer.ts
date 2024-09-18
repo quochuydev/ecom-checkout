@@ -1,4 +1,4 @@
-import { APIService } from "@/types";
+import { APIService } from "@ecom/types";
 import { Customer } from "@prisma/client";
 
 export type ApiV1WebCustomerCreate = APIService<

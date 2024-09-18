@@ -1,8 +1,8 @@
-import { Product } from '@/types/types';
-import { Product as PrismaProduct, Image as PrismaImage } from '@prisma/client';
+import { Product } from "@ecom/types/types";
+import { Product as PrismaProduct, Image as PrismaImage } from "@prisma/client";
 
 export const transformProduct = (
-  product: PrismaProduct & { images?: PrismaImage[] },
+  product: PrismaProduct & { images?: PrismaImage[] }
 ): Product => {
   const {
     name,

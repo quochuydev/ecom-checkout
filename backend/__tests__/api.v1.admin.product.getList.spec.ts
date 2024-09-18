@@ -7,9 +7,11 @@ describe('Testing', async () => {
   beforeAll(async () => {
     const prismaService = getInjection().prismaService;
 
-    await prismaService.product.createMany({
-      data: fixture.postgresData.products,
-    });
+    for (const product of fixture.postgresData.products) {
+      await prismaService.product.create({
+        data: product,
+      });
+    }
   });
 
   it(`With invalid payload from body, validate will be successful`, async () => {

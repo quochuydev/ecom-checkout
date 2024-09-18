@@ -67,8 +67,10 @@ export type Cart = {
 };
 
 export type ProductCategory = {
+  id: string;
   title: string;
   slug: string;
   description?: string;
   products?: Product[];
+  image: Image;
 };

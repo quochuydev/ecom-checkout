@@ -19,7 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="mt-4">
           <a
-            href={product.slug}
+            href={`/products/${product.slug}`}
             className="font-semibold text-gray-900 hover:underline"
           >
             <span className="absolute inset-0" />

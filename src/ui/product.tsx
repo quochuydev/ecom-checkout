@@ -3,7 +3,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { classNames } from "@/lib/style";
-import { Product } from "@/types";
+import { Product } from "@ecom/types";
 import {
   Disclosure,
   DisclosureButton,

@@ -1,5 +1,5 @@
 import { Customer } from "@prisma/client";
-import { APIService } from "@/types";
+import { APIService } from "@ecom/types";
 
 export type ApiV1AdminCustomerGetList = APIService<
   "api.v1.admin.customer.getList",

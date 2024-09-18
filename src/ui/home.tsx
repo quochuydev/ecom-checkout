@@ -5,7 +5,7 @@ import CollectionCard from "@/components/CollectionCard";
 import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { Product, ProductCategory } from "@/types";
+import { Product, ProductCategory } from "@ecom/types";
 
 export default function HomeV2({
   products,
@@ -52,7 +52,7 @@ export default function HomeV2({
                   role="list"
                   className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0"
                 >
-                  {products.map((product: any) => (
+                  {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
@@ -82,8 +82,11 @@ export default function HomeV2({
               </h2>
 
               <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-                {productCategories.map((collection: any) => (
-                  <CollectionCard key={collection.id} collection={collection} />
+                {productCategories.map((productCategory) => (
+                  <CollectionCard
+                    key={productCategory.id}
+                    productCategory={productCategory}
+                  />
                 ))}
               </div>
             </div>

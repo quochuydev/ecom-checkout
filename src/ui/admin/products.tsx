@@ -1,7 +1,7 @@
-'use client';
-import React, { useState } from 'react';
-import Layout from '@/components/admin/Layout';
-import { Button } from '@/components/ui/button';
+"use client";
+import React, { useState } from "react";
+import Layout from "@/components/admin/Layout";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -12,15 +12,15 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -28,13 +28,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Product } from '@/types/api';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/table";
+import { Product } from "@ecom/types/api";
+import { useRouter } from "next/navigation";
 
 export default function Products({ products }: { products: Product[] }) {
   const router = useRouter();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
@@ -45,7 +45,7 @@ export default function Products({ products }: { products: Product[] }) {
           <h1 className="text-2xl font-bold">Products</h1>
           <Button
             size="lg"
-            onClick={() => router.push('/admin/products/new_product')}
+            onClick={() => router.push("/admin/products/new_product")}
           >
             New product
           </Button>
@@ -150,7 +150,7 @@ export default function Products({ products }: { products: Product[] }) {
               <p className="text-nowrap text-sm">
                 {`Showing ${(page - 1) * pageSize + 1} to ${Math.min(
                   page * pageSize,
-                  products.length,
+                  products.length
                 )} of ${products.length} orders`}
               </p>
               <Select

@@ -29,16 +29,7 @@ export default async function Page({ params: { slug } }: any) {
   return (
     <ProductUI
       product={product as Product}
-      relatedProducts={products
-        .map((e) => ({
-          id: e.id,
-          name: e.name,
-          price: e.price,
-          href: `/products/${e.slug}`,
-          imageSrc: e.images?.[0]?.src,
-          imageAlt: e.images?.[0]?.alt,
-        }))
-        .slice(0, 8)}
+      relatedProducts={products.slice(0, 8)}
     />
   );
 }

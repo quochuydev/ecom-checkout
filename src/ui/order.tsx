@@ -1,25 +1,25 @@
-'use client';
+"use client";
 /* eslint-disable @next/next/no-img-element */
 
 const products = [
   {
     id: 1,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$36.00',
-    size: 'L',
+    name: "Basic Tee",
+    href: "#",
+    price: "$36.00",
+    size: "L",
     imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg',
+      "https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg",
     imageAlt: "Model wearing men's charcoal basic tee in large.",
   },
   {
     id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$36.00',
-    size: 'L',
+    name: "Basic Tee",
+    href: "#",
+    price: "$36.00",
+    size: "L",
     imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg',
+      "https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg",
     imageAlt: "Model wearing men's charcoal basic tee in large.",
   },
 ];
@@ -67,7 +67,7 @@ export default function Page() {
                   />
                   <div className="flex-auto space-y-1">
                     <h3 className="text-gray-900">
-                      <a href={product.href}>{product.name}</a>
+                      <a href={product.href}>{product.title}</a>
                     </h3>
                     <p>{product.size}</p>
                   </div>

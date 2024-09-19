@@ -87,7 +87,7 @@ export const setting = {
   ],
   banners: [
     {
-      src: `/thehealspa/banner_1.jpg`,
+      src: `/banner.png`,
       alt: "Rejuvenate at Oasis Spa",
       title: "Rejuvenate at Oasis Spa",
       description:
@@ -96,7 +96,7 @@ export const setting = {
       buttonUrl: "#",
     },
     {
-      src: `/thehealspa/banner_2.jpg`,
+      src: `/banner.png`,
       alt: "Escape to Tranquility",
       title: "Escape to Tranquility",
       description:

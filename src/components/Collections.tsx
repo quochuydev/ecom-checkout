@@ -1,25 +1,25 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
+"use client";
 
-import { PlusIcon } from '@heroicons/react/20/solid';
-import { useState } from 'react';
-import CollectionFilter from './CollectionFilter';
+import { PlusIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+import CollectionFilter from "./CollectionFilter";
 
 const breadcrumbs = [
-  { id: 1, name: 'Men', href: '#' },
-  { id: 2, name: 'Shirts', href: '#' },
+  { id: 1, name: "Men", href: "#" },
+  { id: 2, name: "Shirts", href: "#" },
 ];
 
 const filters = [
   {
-    id: 'category',
-    name: 'Category',
+    id: "category",
+    name: "Category",
     options: [
-      { value: 'new-arrivals', label: 'All New Arrivals' },
-      { value: 'tees', label: 'Tees' },
-      { value: 'crewnecks', label: 'Crewnecks' },
-      { value: 'sweatshirts', label: 'Sweatshirts' },
-      { value: 'pants-shorts', label: 'Pants & Shorts' },
+      { value: "new-arrivals", label: "All New Arrivals" },
+      { value: "tees", label: "Tees" },
+      { value: "crewnecks", label: "Crewnecks" },
+      { value: "sweatshirts", label: "Sweatshirts" },
+      { value: "pants-shorts", label: "Pants & Shorts" },
     ],
   },
 ];
@@ -99,7 +99,7 @@ export default function Collections({ products, productCategories }: any) {
                 {filters.map((section, sectionIdx) => (
                   <div
                     key={section.name}
-                    className={sectionIdx === 0 ? '' : 'pt-10'}
+                    className={sectionIdx === 0 ? "" : "pt-10"}
                   >
                     <fieldset>
                       <legend className="block text-sm font-medium text-gray-900">
@@ -157,7 +157,7 @@ export default function Collections({ products, productCategories }: any) {
                       href={product.href}
                       className="text-sm font-medium text-gray-900 hover:underline"
                     >
-                      {product.name}
+                      {product.title}
                     </a>
                     <p className="flex flex-1 flex-col justify-end text-base font-medium text-gray-900">
                       {product.price}

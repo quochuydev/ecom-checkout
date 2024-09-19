@@ -4,32 +4,32 @@ import {
   DialogTitle,
   Transition,
   TransitionChild,
-} from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+} from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const products = [
   {
     id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    price: '$90.00',
+    name: "Throwback Hip Bag",
+    href: "#",
+    price: "$90.00",
     quantity: 1,
     imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
     imageAlt:
-      'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
   },
   {
     id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    price: '$32.00',
+    name: "Medium Stuff Satchel",
+    href: "#",
+    price: "$32.00",
     quantity: 1,
     imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
     imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
+      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
   },
 ];
 
@@ -102,7 +102,7 @@ export default function Cart() {
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
                                         <a href={product.href}>
-                                          {product.name}
+                                          {product.title}
                                         </a>
                                       </h3>
                                       <p className="ml-4">{product.price}</p>
@@ -148,7 +148,7 @@ export default function Cart() {
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          or{' '}
+                          or{" "}
                           <button
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"

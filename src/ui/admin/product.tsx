@@ -22,11 +22,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { ApiService } from "@/lib/api-caller";
 import {
+  API,
   ApiV1AdminProductUpdate,
   ApiV1AdminProductGetList,
   ApiV1AdminProductCategoryGetList,
 } from "@ecom/types";
-import { API } from "@ecom/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";

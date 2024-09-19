@@ -1,5 +1,5 @@
 import React from "react";
-import Collections from "@/ui/collections";
+import Categories from "@/ui/categories";
 import { prisma } from "@/lib/prisma";
 import { Product } from "@ecom/types/types";
 
@@ -19,10 +19,8 @@ export default async function Page() {
     }),
   ]).catch(() => [[], []]);
 
-  console.log(`debug:products`, products);
-
   return (
-    <Collections
+    <Categories
       products={products as Product[]}
       productCategories={productCategories}
     />

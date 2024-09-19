@@ -1,6 +1,5 @@
-'use client';
-
-import { classNames } from '@/lib/style';
+"use client";
+import { classNames } from "@/lib/style";
 import {
   Dialog,
   DialogPanel,
@@ -9,15 +8,17 @@ import {
   DisclosurePanel,
   Transition,
   TransitionChild,
-} from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+} from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useCategory } from "@/hooks/useCategory";
 
 export default function CollectionFilter({
-  filters = [],
   mobileFiltersOpen,
   setMobileFiltersOpen,
 }: any) {
+  const { productCategories } = useCategory();
+
   return (
     <Transition show={mobileFiltersOpen}>
       <Dialog
@@ -58,60 +59,56 @@ export default function CollectionFilter({
                 </button>
               </div>
 
-              {/* Filters */}
               <form className="mt-4">
-                {filters.map((section) => (
-                  <Disclosure
-                    as="div"
-                    key={section.name}
-                    className="border-t border-gray-200 pb-4 pt-4"
-                  >
-                    {({ open }) => (
-                      <fieldset>
-                        <legend className="w-full px-2">
-                          <DisclosureButton className="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
-                            <span className="text-sm font-medium text-gray-900">
-                              {section.name}
-                            </span>
-                            <span className="ml-6 flex h-7 items-center">
-                              <ChevronDownIcon
-                                className={classNames(
-                                  open ? '-rotate-180' : 'rotate-0',
-                                  'h-5 w-5 transform',
-                                )}
-                                aria-hidden="true"
+                <Disclosure
+                  as="div"
+                  className="border-t border-gray-200 pb-4 pt-4"
+                >
+                  {({ open }) => (
+                    <fieldset>
+                      <legend className="w-full px-2">
+                        <DisclosureButton className="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                          <span className="text-sm font-medium text-gray-900">
+                            Categories
+                          </span>
+                          <span className="ml-6 flex h-7 items-center">
+                            <ChevronDownIcon
+                              className={classNames(
+                                open ? "-rotate-180" : "rotate-0",
+                                "h-5 w-5 transform"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </DisclosureButton>
+                      </legend>
+                      <DisclosurePanel className="px-4 pb-2 pt-4">
+                        <div className="space-y-6">
+                          {productCategories?.map((productCategory, index) => (
+                            <div
+                              key={productCategory.id}
+                              className="flex items-center"
+                            >
+                              <input
+                                id={`${index}-mobile`}
+                                name={`categories[]`}
+                                defaultValue={productCategory.title}
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                               />
-                            </span>
-                          </DisclosureButton>
-                        </legend>
-                        <DisclosurePanel className="px-4 pb-2 pt-4">
-                          <div className="space-y-6">
-                            {section.options.map((option, optionIdx) => (
-                              <div
-                                key={option.value}
-                                className="flex items-center"
+                              <label
+                                htmlFor={`${index}-mobile`}
+                                className="ml-3 text-sm text-gray-500"
                               >
-                                <input
-                                  id={`${section.id}-${optionIdx}-mobile`}
-                                  name={`${section.id}[]`}
-                                  defaultValue={option.value}
-                                  type="checkbox"
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`${section.id}-${optionIdx}-mobile`}
-                                  className="ml-3 text-sm text-gray-500"
-                                >
-                                  {option.label}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </DisclosurePanel>
-                      </fieldset>
-                    )}
-                  </Disclosure>
-                ))}
+                                {productCategory.title}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </DisclosurePanel>
+                    </fieldset>
+                  )}
+                </Disclosure>
               </form>
             </DialogPanel>
           </TransitionChild>

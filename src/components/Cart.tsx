@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { useCart } from "@/hooks/useCart";
 
 const products = [
   {
@@ -35,6 +36,7 @@ const products = [
 
 export default function Cart() {
   const [open, setOpen] = useState(true);
+  const { cart } = useCart();
 
   return (
     <Transition show={open}>

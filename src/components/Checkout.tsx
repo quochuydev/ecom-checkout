@@ -69,7 +69,7 @@ export default function Page() {
   });
 
   return (
-    <main className="mx-auto max-w-7xl bg-gray-50 px-4 py-16">
+    <main className="mx-auto max-w-7xl px-4 py-16">
       <div className="mx-auto max-w-2xl lg:max-w-none">
         <h1 className="sr-only">Checkout</h1>
         <form
@@ -78,7 +78,7 @@ export default function Page() {
         >
           <div>
             <h2 className="text-lg font-medium text-gray-900">
-              {t("CONTACT_INFORMATION")}
+              {"Contact information"}
             </h2>
 
             <div className="mt-4">

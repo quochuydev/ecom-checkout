@@ -57,6 +57,13 @@ const handle: Handle<ApiV1WebCartGetOrCreate> = async (data, injection) => {
 
   const newCart = await prismaService.cart.create({
     data: {},
+    include: {
+      lineItems: {
+        include: {
+          product: true,
+        },
+      },
+    },
   });
 
   return {

@@ -1,32 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import HeaderMobile from "@/components/HeaderMobile";
-import { ApiService } from "@/lib/api-caller";
+import { useCategory } from "@/hooks/useCategory";
 import { setting } from "@/settings";
 import { Bars3Icon, ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { API, ApiV1WebProductCategoryGetList } from "@ecom/types";
-import { useConfig } from "@/hooks/useConfig";
+import Cart from "./Cart";
 
 export default function Header() {
-  const { configuration } = useConfig();
-  const apiService = ApiService(configuration.apiUrl);
-
-  const { data: productCategories } = useQuery({
-    queryKey: ["productCategories"],
-    queryFn: async () => {
-      const data = await apiService.request<
-        API<ApiV1WebProductCategoryGetList>
-      >({
-        url: "/api/api.v1.web.productCategory.getList",
-      });
-
-      return data?.items || [];
-    },
-  });
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { productCategories } = useCategory();
 
   return (
     <div className="bg-white">
@@ -136,6 +119,8 @@ export default function Header() {
                             items in cart, view bag
                           </span>
                         </a>
+
+                        <Cart />
                       </div>
                     </div>
                   </div>

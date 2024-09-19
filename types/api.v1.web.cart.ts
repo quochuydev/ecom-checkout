@@ -4,8 +4,8 @@ import { APIService, Product } from "@ecom/types";
 export type ApiV1WebCartGetOrCreate = APIService<
   "api.v1.web.cart.getOrCreate",
   undefined,
-  {
-    id: string;
+  Cart & {
+    lineItems: Array<CartLineItem & { product: Product }>;
   }
 >;
 

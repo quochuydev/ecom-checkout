@@ -1,22 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { ROUTING } from "@/lib/constants";
 import CollectionCard from "@/components/CollectionCard";
-import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { Product, ProductCategory } from "@ecom/types";
+import ProductCard from "@/components/ProductCard";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
   CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
+import { ROUTING } from "@/lib/constants";
 import { setting } from "@/settings";
+import { Product, ProductCategory } from "@ecom/types";
 
-export default function HomeV2({
+export default function Home({
   products,
   productCategories,
 }: {

@@ -85,7 +85,7 @@ export function useCart() {
       },
     });
 
-    removeCart();
+    await removeCart();
     getCart();
 
     return result;

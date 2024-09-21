@@ -34,7 +34,6 @@ const handle: Handle<ApiV1WebCartCheckout> = async (data, injection) => {
       lineItems: true,
     },
   });
-  console.log(`debug:cart`, cart);
   if (!cart) throw new Error('cart not found');
 
   const customer = await prismaService.customer.create({
@@ -52,7 +51,6 @@ const handle: Handle<ApiV1WebCartCheckout> = async (data, injection) => {
       note: '',
       lineItems: {
         create: cart.lineItems.map((lineItem) => ({
-          id: lineItem.id,
           productId: lineItem.productId,
           quantity: lineItem.quantity,
           price: lineItem.price,

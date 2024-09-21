@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,12 +30,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import Layout from "@/components/admin/Layout";
-import {
-  API,
-  ApiV1AdminOrderGetList,
-  ApiV1AdminProductCategoryGetList,
-  Order,
-} from "@ecom/types";
+import { API, ApiV1AdminOrderGetList } from "@ecom/types";
 import { useQuery } from "@tanstack/react-query";
 import { useConfig } from "@/hooks/useConfig";
 import { ApiService } from "@/lib/api-caller";
@@ -178,7 +172,9 @@ export default function Component() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View Order</DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <a href="/admin/orders/12345">View Order</a>
+                        </DropdownMenuItem>
                         <DropdownMenuItem>Cancel Order</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

@@ -31,18 +31,38 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import Layout from "@/components/admin/Layout";
-import { Order } from "@ecom/types";
+import {
+  API,
+  ApiV1AdminOrderGetList,
+  ApiV1AdminProductCategoryGetList,
+  Order,
+} from "@ecom/types";
+import { useQuery } from "@tanstack/react-query";
+import { useConfig } from "@/hooks/useConfig";
+import { ApiService } from "@/lib/api-caller";
 
-export default function Component({ orders = [] }: { orders: Order[] }) {
+export default function Component() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+  const { configuration } = useConfig();
+  const apiService = ApiService(configuration.apiUrl);
+
+  const { data: orders = [] } = useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const data = await apiService.request<API<ApiV1AdminOrderGetList>>({
+        url: "/api/v1/api.v1.admin.order.getList",
+      });
+
+      return data?.items || [];
+    },
+  });
+
   const filteredOrders = useMemo(() => {
-    return orders.filter(
-      (order) =>
-        order.id.toLowerCase().includes(search.toLowerCase()) ||
-        order.status.toLowerCase().includes(search.toLowerCase())
+    return orders.filter((order) =>
+      order.id.toLowerCase().includes(search.toLowerCase())
     );
   }, [orders, search]);
 
@@ -122,33 +142,29 @@ export default function Component({ orders = [] }: { orders: Order[] }) {
               <TableRow>
                 <TableHead>Order</TableHead>
                 <TableHead>Customer</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead>Date</TableHead>
                 <TableHead className="text-right">Total</TableHead>
-                <TableHead className="hidden sm:table-cell">Status</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {paginatedOrders.map((order) => (
                 <TableRow key={order.id}>
-                  <TableCell className="font-medium">{order.id}</TableCell>
-                  <TableCell>{order.customer}</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {order.date}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    ${order.total.toFixed(2)}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
+                  <TableCell>{order.id}</TableCell>
+                  <TableCell>{order.customer?.firstName}</TableCell>
+                  <TableCell>{String(order.createdDate)}</TableCell>
+                  <TableCell className="text-right">${order.amount}</TableCell>
+                  <TableCell>
                     <Badge
                       variant={
                         order.status === "Pending"
-                          ? "warning"
+                          ? "default"
                           : order.status === "Shipped"
-                          ? "info"
+                          ? "secondary"
                           : order.status === "Delivered"
-                          ? "success"
-                          : "danger"
+                          ? "destructive"
+                          : "outline"
                       }
                     >
                       {order.status}

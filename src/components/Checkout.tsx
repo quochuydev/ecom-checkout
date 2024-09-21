@@ -1,30 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { useCart } from "@/hooks/useCart";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useTranslations from "next-translate/useTranslation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
-import { array, number, object, string } from "zod";
-
-const cart = {
-  items: [
-    {
-      id: "id",
-      image:
-        "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
-      title: "title title title title title",
-      href: "#",
-      price: 20,
-      quantity: 3,
-      itemTotal: 60,
-    },
-  ],
-  subtotal: 60,
-  total: 60,
-};
+import z, { array, object, string } from "zod";
 
 export default function Page() {
-  const { t } = useTranslations("common");
+  const { cart, checkout } = useCart();
+  const [order, setOrder] = useState<any>(null);
 
   const schema = object({
     contact: object({
@@ -65,8 +49,37 @@ export default function Page() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    //
+    console.log(`debug:data`, data);
+
+    const result = await checkout({
+      contact: {
+        email: data.contact.email,
+      },
+      shipping: {
+        firstName: data.shipping.firstName,
+        lastName: data.shipping.lastName,
+        phoneNumber: data.shipping.phoneNumber,
+        address: data.shipping.address,
+        city: data.shipping.city,
+        country: data.shipping.country,
+        province: data.shipping.province,
+        postalCode: data.shipping.postalCode,
+      },
+    });
+
+    setOrder(result);
   });
+
+  if (order?.orderId) {
+    return (
+      <main className="mx-auto max-w-7xl px-4 py-16">
+        <div className="flex flex-col mx-auto max-w-2xl lg:max-w-none items-center">
+          <p className="text-4xl font-bold py-4">Thank you for your order!</p>
+          <p className="text-xl">Order ID: {order?.orderId}</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-16">
@@ -291,12 +304,12 @@ export default function Page() {
               <h3 className="sr-only">Items in your cart</h3>
 
               <ul role="list" className="divide-y divide-gray-200">
-                {cart.items.map((item) => (
+                {cart?.lineItems?.map((item) => (
                   <li key={item.id} className="flex px-4 py-6 sm:px-6">
                     <div className="flex-shrink-0">
                       <img
-                        src={item.image}
-                        alt={item.title}
+                        src={item.product.images?.[0]?.url}
+                        alt={item.product.images?.[0]?.fileName}
                         className="w-20 rounded-md"
                       />
                     </div>
@@ -306,10 +319,10 @@ export default function Page() {
                         <div className="min-w-0 flex-1">
                           <h4 className="text-sm">
                             <a
-                              href={item.href}
+                              href={`/products/${item.product.slug}`}
                               className="font-medium text-gray-700 hover:text-gray-800"
                             >
-                              {item.title}
+                              {item.product.title}
                             </a>
                           </h4>
                         </div>
@@ -320,11 +333,6 @@ export default function Page() {
                             className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
                           >
                             <span className="sr-only">Remove</span>
-                            {/* TODO */}
-                            {/* <TrashIcon
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              /> */}
                           </button>
                         </div>
                       </div>
@@ -338,7 +346,7 @@ export default function Page() {
                           <label htmlFor="quantity" className="sr-only">
                             Quantity
                           </label>
-                          <p>${item.itemTotal}</p>
+                          <p>${item.quantity}</p>
                         </div>
                       </div>
                     </div>
@@ -350,7 +358,7 @@ export default function Page() {
                 <div className="flex items-center justify-between">
                   <dt className="text-sm">Subtotal</dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    ${cart.subtotal}
+                    ${cart?.amount}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between">
@@ -364,7 +372,7 @@ export default function Page() {
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6">
                   <dt className="text-base font-medium">Total</dt>
                   <dd className="text-base font-medium text-gray-900">
-                    ${cart.total}
+                    ${cart?.amount}
                   </dd>
                 </div>
               </dl>

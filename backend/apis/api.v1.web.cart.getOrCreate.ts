@@ -27,7 +27,7 @@ const handle: Handle<ApiV1WebCartGetOrCreate> = async (data, injection) => {
 
   const cartId = getCookieValue(data, 'cartId');
 
-  const cart = cartId
+  let cart = cartId
     ? await prismaService.cart.findFirst({
         where: {
           id: cartId,
@@ -35,44 +35,41 @@ const handle: Handle<ApiV1WebCartGetOrCreate> = async (data, injection) => {
         include: {
           lineItems: {
             include: {
-              product: true,
+              product: {
+                include: {
+                  images: true,
+                },
+              },
             },
           },
         },
       })
     : undefined;
 
-  if (cart) {
-    return {
-      code: 200,
-      headers: {
-        'set-cookie': `cartId=${cart.id}; Path=/; HttpOnly`,
-      },
-      body: {
-        ...cart,
-        totalQuantity: 12,
-      },
-    };
-  }
-
-  const newCart = await prismaService.cart.create({
-    data: {},
-    include: {
-      lineItems: {
-        include: {
-          product: true,
+  if (!cart) {
+    cart = await prismaService.cart.create({
+      data: {},
+      include: {
+        lineItems: {
+          include: {
+            product: {
+              include: {
+                images: true,
+              },
+            },
+          },
         },
       },
-    },
-  });
+    });
+  }
 
   return {
     code: 200,
     headers: {
-      'set-cookie': `cartId=${newCart.id}; Path=/; HttpOnly`,
+      'set-cookie': `cartId=${cart.id}; SameSite=lax; Path=/; HttpOnly;`,
     },
     body: {
-      ...newCart,
+      ...cart,
       totalQuantity: 12,
     },
   };

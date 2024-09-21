@@ -5,7 +5,7 @@ import { isValidRequest } from '../core/utils';
 import { getCookieValue } from '../lib/cookie';
 
 const schema = z.object({
-  //
+  productId: z.string().trim(),
 });
 
 const validate: Validate<ApiV1WebCartAddItem> = async (data, injection) => {
@@ -26,12 +26,21 @@ const handle: Handle<ApiV1WebCartAddItem> = async (data, injection) => {
   const cartId = getCookieValue(data, 'cartId');
   if (!cartId) throw new Error('cartId is required');
 
+  const cart = await prismaService.cart.findFirst({
+    where: {
+      id: cartId,
+    },
+  });
+  console.log(`debug:cart`, cart);
+  if (!cart) throw new Error('cart not found');
+
   const cartLineItem = await prismaService.cartLineItem.findFirst({
     where: {
       cartId,
       productId,
     },
   });
+  console.log(`debug:cartLineItem`, cartLineItem);
 
   if (cartLineItem) {
     const quantity = cartLineItem.quantity + 1;
@@ -50,9 +59,9 @@ const handle: Handle<ApiV1WebCartAddItem> = async (data, injection) => {
       data: {
         cartId,
         productId,
-        quantity: 1,
+        quantity: 2,
         price: 2.5,
-        totalPrice: 1.8,
+        totalPrice: 2.5 * 2,
       },
     });
   }

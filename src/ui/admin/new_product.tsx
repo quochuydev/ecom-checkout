@@ -65,7 +65,7 @@ export default function NewProduct({ apiUrl }: { apiUrl: string }) {
 
   const onSubmit = handleSubmit(async (data) => {
     const product = await apiService.request<API<ApiV1AdminProductCreate>>({
-      url: "/api/api.v1.admin.product.create",
+      url: "/api/v1/api.v1.admin.product.create",
       data: {
         title: data.title,
         description: data.description,

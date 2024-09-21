@@ -42,7 +42,7 @@ const handle: Handle<ApiV1AdminProductAddImages> = async (data, injection) => {
   });
 
   for (const file of files) {
-    const image = await prismaService.file.create({
+    const image = await prismaService.image.create({
       data: {
         fileName: file.fileName,
         url: file.url,

@@ -24,7 +24,7 @@ const handle: Handle<ApiV1AdminFileCreate> = async (data, injection) => {
   const { prismaService } = injection;
   const { files } = data.body;
 
-  await prismaService.file.createMany({
+  await prismaService.image.createMany({
     data: files.map((file) => ({
       fileName: file.fileName,
       url: file.url,

@@ -17,7 +17,7 @@ export type APIService<Subject = string, Request = any, Response = any> = {
 };
 
 export type API<T extends APIService> = {
-  url: `/api/${T["subject"]}`;
+  url: `/api/v1/${T["subject"]}`;
   method: "post";
   data: T["request"];
   result: T["response"];

@@ -30,6 +30,7 @@ const handle: Handle<ApiV1AdminOrderGetList> = async (data, injection) => {
     where: {},
     include: {
       lineItems: true,
+      customer: true,
     },
   });
 

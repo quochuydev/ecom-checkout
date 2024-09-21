@@ -2,6 +2,7 @@
 "use client";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useCart } from "@/hooks/useCart";
 import { classNames } from "@/lib/style";
 import { Product } from "@ecom/types";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
@@ -15,11 +16,12 @@ export default function ProductUI({
   product: Product;
   relatedProducts: Product[];
 }) {
+  const { cart, addItem } = useCart();
+
   return (
     <>
       <ToastContainer />
       <Header />
-
       <main className="mx-auto max-w-7xl bg-white sm:px-6 sm:pt-16 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-none">
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
@@ -95,7 +97,8 @@ export default function ProductUI({
                 <div className="mt-10 flex">
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={async () => {
+                      await addItem(product.id);
                       toast.success("Added to bag");
                     }}
                     className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
@@ -159,7 +162,8 @@ export default function ProductUI({
                   <div className="mt-6">
                     <a
                       type="button"
-                      onClick={() => {
+                      onClick={async () => {
+                        await addItem(product.id);
                         toast.success("Added to bag");
                       }}
                       className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"

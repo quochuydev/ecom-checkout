@@ -9,6 +9,12 @@ export type ApiV1WebCartGetOrCreate = APIService<
   }
 >;
 
+export type ApiV1WebCartRemove = APIService<
+  "api.v1.web.cart.remove",
+  undefined,
+  void
+>;
+
 export type ApiV1WebCartGet = APIService<
   "api.v1.web.cart.get",
   undefined,
@@ -64,4 +70,26 @@ export type ApiV1WebCartRemoveItem = APIService<
     productId: string;
   },
   void
+>;
+
+export type ApiV1WebCartCheckout = APIService<
+  "api.v1.web.cart.checkout",
+  {
+    contact: {
+      email: string;
+    };
+    shipping: {
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      address: string;
+      city: string;
+      country: string;
+      province: string;
+      postalCode: string;
+    };
+  },
+  {
+    orderId: string;
+  }
 >;

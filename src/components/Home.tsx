@@ -1,8 +1,8 @@
-'use client';
-import { ROUTING } from '@/lib/constants';
-import { setting } from '@/settings';
-import CollectionCard from './CollectionCard';
-import ProductCard from './ProductCard';
+"use client";
+import { ROUTING } from "@/lib/constants";
+import { setting } from "@/settings";
+import CollectionCard from "./CollectionCard";
+import ProductCard from "./ProductCard";
 
 export default function Home({ productCategories, products }: any) {
   return (
@@ -97,7 +97,7 @@ export default function Home({ productCategories, products }: any) {
             </h2>
 
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-              {productCategories.map((collection: any) => (
+              {productCategories?.map((collection: any) => (
                 <CollectionCard key={collection.id} collection={collection} />
               ))}
             </div>

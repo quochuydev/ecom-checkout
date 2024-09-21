@@ -9,6 +9,7 @@ import Cart from "./Cart";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { productCategories } = useCategory();
 
   return (
@@ -107,6 +108,7 @@ export default function Header() {
                         <a
                           href="#"
                           className="group -m-2 flex items-center p-2"
+                          onClick={() => setOpen(true)}
                         >
                           <ShoppingCartIcon
                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -120,7 +122,7 @@ export default function Header() {
                           </span>
                         </a>
 
-                        <Cart />
+                        <Cart open={open} setOpen={setOpen} />
                       </div>
                     </div>
                   </div>

@@ -102,7 +102,7 @@ export default function Home({
               </h2>
 
               <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-                {productCategories.map((productCategory) => (
+                {productCategories?.map((productCategory) => (
                   <CollectionCard
                     key={productCategory.id}
                     productCategory={productCategory}

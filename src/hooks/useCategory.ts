@@ -13,7 +13,7 @@ export function useCategory() {
       const data = await apiService.request<
         API<ApiV1WebProductCategoryGetList>
       >({
-        url: "/api/api.v1.web.productCategory.getList",
+        url: "/api/v1/api.v1.web.productCategory.getList",
       });
 
       return data?.items || [];

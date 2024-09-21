@@ -9,11 +9,11 @@ import ApiV1AdminProductCategoryGetList from './apis/api.v1.admin.productCategor
 import ApiV1AuthAuthorize from './apis/api.v1.auth.authorize.ts';
 import ApiV1AuthLogin from './apis/api.v1.auth.login.ts';
 import ApiV1WebCartAddItem from './apis/api.v1.web.cart.addItem.ts';
-import ApiV1WebCartCreate from './apis/api.v1.web.cart.create.ts';
+import ApiV1WebCartCheckout from './apis/api.v1.web.cart.checkout.ts';
 import ApiV1WebCartDecreaseItem from './apis/api.v1.web.cart.decreaseItem.ts';
-import ApiV1WebCartGet from './apis/api.v1.web.cart.get.ts';
 import ApiV1WebCartGetOrCreate from './apis/api.v1.web.cart.getOrCreate.ts';
 import ApiV1WebCartIncreaseItem from './apis/api.v1.web.cart.increaseItem.ts';
+import ApiV1WebCartRemove from './apis/api.v1.web.cart.remove.ts';
 import ApiV1WebCartRemoveItem from './apis/api.v1.web.cart.removeItem.ts';
 import ApiV1WebCartUpdateItem from './apis/api.v1.web.cart.updateItem.ts';
 import ApiV1WebCustomerCreate from './apis/api.v1.web.customer.create.ts';
@@ -34,11 +34,11 @@ export const handlers = [
   ApiV1AuthAuthorize,
   ApiV1AuthLogin,
   ApiV1WebCartAddItem,
-  ApiV1WebCartCreate,
+  ApiV1WebCartCheckout,
   ApiV1WebCartDecreaseItem,
-  ApiV1WebCartGet,
   ApiV1WebCartGetOrCreate,
   ApiV1WebCartIncreaseItem,
+  ApiV1WebCartRemove,
   ApiV1WebCartRemoveItem,
   ApiV1WebCartUpdateItem,
   ApiV1WebCustomerCreate,

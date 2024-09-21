@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+import { useCart } from "@/hooks/useCart";
 import {
   Dialog,
   DialogPanel,
@@ -6,37 +8,16 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-import { useCart } from "@/hooks/useCart";
 
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-];
-
-export default function Cart() {
-  const [open, setOpen] = useState(true);
-  const { cart } = useCart();
+export default function Cart({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const { cart, increaseItem, decreaseItem, removeItem } = useCart();
+  console.log(`debug:cart`, cart);
 
   return (
     <Transition show={open}>
@@ -89,40 +70,45 @@ export default function Cart() {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {products.map((product) => (
-                              <li key={product.id} className="flex py-6">
-                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                            {cart?.lineItems?.map((lineItem) => (
+                              <li
+                                key={lineItem.id}
+                                className="flex py-6 items-center"
+                              >
+                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden border border-gray-200">
                                   <img
-                                    src={product.imageSrc}
-                                    alt={product.imageAlt}
+                                    src={lineItem.product.images?.[0]?.url}
+                                    alt={lineItem.product.images?.[0]?.fileName}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
 
                                 <div className="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <a href={product.href}>
-                                          {product.title}
-                                        </a>
-                                      </h3>
-                                      <p className="ml-4">{product.price}</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">
-                                      Qty {product.quantity}
-                                    </p>
-
-                                    <div className="flex">
+                                  <div className="flex justify-between text-base font-medium text-gray-900">
+                                    <h3>
+                                      <a
+                                        href={`/products/${lineItem.product.id}`}
+                                      >
+                                        {lineItem.product.title}
+                                      </a>
+                                    </h3>
+                                    <div className="">
                                       <button
                                         type="button"
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                                        className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
+                                        onClick={() =>
+                                          removeItem(lineItem.productId)
+                                        }
                                       >
                                         Remove
                                       </button>
                                     </div>
+                                  </div>
+                                  <div className="flex flex-1 justify-between">
+                                    <p className="text-gray-500">
+                                      {lineItem.price} x {lineItem.quantity}
+                                    </p>
+                                    <p>{lineItem.price * lineItem.quantity}</p>
                                   </div>
                                 </div>
                               </li>
@@ -135,14 +121,14 @@ export default function Cart() {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>$262.00</p>
+                        <p>${cart?.amount}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
                         <a
-                          href="#"
+                          href="/checkout"
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Checkout

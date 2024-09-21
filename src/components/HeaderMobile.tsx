@@ -1,6 +1,6 @@
-'use client';
-import { classNames } from '@/lib/style';
-import { setting } from '@/settings';
+"use client";
+import { classNames } from "@/lib/style";
+import { setting } from "@/settings";
 import {
   Dialog,
   DialogPanel,
@@ -11,10 +11,10 @@ import {
   TabPanels,
   Transition,
   TransitionChild,
-} from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment } from 'react';
+} from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Fragment } from "react";
 
 export default function Page({
   productCategories = [],
@@ -75,8 +75,8 @@ export default function Page({
                   <TabList className="-mb-px flex space-x-8 px-4">
                     {[
                       {
-                        name: 'Collections',
-                        href: '/collections',
+                        name: "Collections",
+                        href: "/collections",
                       },
                     ].map((category) => (
                       <Tab
@@ -84,9 +84,9 @@ export default function Page({
                         className={({ selected }) =>
                           classNames(
                             selected
-                              ? 'border-indigo-600 text-indigo-600'
-                              : 'border-transparent text-gray-900',
-                            'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium',
+                              ? "border-indigo-600 text-indigo-600"
+                              : "border-transparent text-gray-900",
+                            "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
                           )
                         }
                       >
@@ -98,10 +98,10 @@ export default function Page({
                 <TabPanels as={Fragment}>
                   {[
                     {
-                      name: 'Collections',
-                      href: '/collections',
+                      name: "Collections",
+                      href: "/collections",
                       featured: [],
-                      collection: productCategories.map((e) => ({
+                      collection: productCategories?.map((e) => ({
                         id: e.id,
                         name: e.name,
                         href: `/collections/${e.slug}`,

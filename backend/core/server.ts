@@ -26,22 +26,21 @@ export async function startServer(options: {
 
   app.use(
     cors({
-      // credentials: true,
-      // origin: true,
-      origin: 'http://localhost:3333',
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      origin: true,
+      // origin: 'http://localhost:3333',
       credentials: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     })
   );
   app.use(bodyParser.json({}));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
 
-  app.get('/', (_: Request, response: Response) => {
+  app.get('/api', (_: Request, response: Response) => {
     response.status(200).send(`ok - ${configuration.buildVersion}`);
   });
 
-  app.post('/api/:subject', async (request: Request, response: Response) => {
+  app.post('/api/v1/:subject', async (request: Request, response: Response) => {
     try {
       const subject = request.params.subject;
       if (!subject) throw new Error('invalid subject');
@@ -56,11 +55,16 @@ export async function startServer(options: {
 
       const result = await processHandler({ subject, injection, request });
 
+      if (result.headers?.['set-cookie']) {
+        response.setHeader('set-cookie', result.headers['set-cookie']);
+      }
+
       response.status(result.code).send(result.body || {});
-    } catch (error) {
-      response
-        .status(error.code || 500)
-        .send({ error, message: error.message });
+    } catch (error: any) {
+      response.status(error.code || 500).send({
+        error,
+        message: error.message,
+      });
     }
   });
 

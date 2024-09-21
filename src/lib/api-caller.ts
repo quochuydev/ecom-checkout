@@ -46,6 +46,7 @@ export async function sendRequest<T extends Default>(
     method,
     // cache: 'no-cache',
     // signal: AbortSignal.timeout(30000),
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...headers,

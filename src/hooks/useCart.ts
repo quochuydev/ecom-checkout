@@ -2,9 +2,11 @@ import { ApiService } from "@/lib/api-caller";
 import {
   API,
   ApiV1WebCartAddItem,
+  ApiV1WebCartCheckout,
   ApiV1WebCartDecreaseItem,
   ApiV1WebCartGetOrCreate,
   ApiV1WebCartIncreaseItem,
+  ApiV1WebCartRemove,
   ApiV1WebCartRemoveItem,
 } from "@ecom/types";
 import { useQuery } from "@tanstack/react-query";
@@ -15,10 +17,10 @@ export function useCart() {
   const apiService = ApiService(configuration.apiUrl);
 
   const { data: cart, refetch: getCart } = useQuery({
-    queryKey: ["productCategories"],
+    queryKey: ["cart"],
     queryFn: async () => {
       const data = await apiService.request<API<ApiV1WebCartGetOrCreate>>({
-        url: "/api/api.v1.web.cart.getOrCreate",
+        url: "/api/v1/api.v1.web.cart.getOrCreate",
       });
 
       return data;
@@ -27,7 +29,7 @@ export function useCart() {
 
   async function addItem(productId: string) {
     await apiService.request<API<ApiV1WebCartAddItem>>({
-      url: "/api/api.v1.web.cart.addItem",
+      url: "/api/v1/api.v1.web.cart.addItem",
       data: {
         productId,
       },
@@ -38,7 +40,7 @@ export function useCart() {
 
   async function removeItem(productId: string) {
     await apiService.request<API<ApiV1WebCartRemoveItem>>({
-      url: "/api/api.v1.web.cart.removeItem",
+      url: "/api/v1/api.v1.web.cart.removeItem",
       data: {
         productId,
       },
@@ -49,7 +51,7 @@ export function useCart() {
 
   async function decreaseItem(productId: string) {
     await apiService.request<API<ApiV1WebCartDecreaseItem>>({
-      url: "/api/api.v1.web.cart.decreaseItem",
+      url: "/api/v1/api.v1.web.cart.decreaseItem",
       data: {
         productId,
       },
@@ -60,7 +62,7 @@ export function useCart() {
 
   async function increaseItem(productId: string) {
     await apiService.request<API<ApiV1WebCartIncreaseItem>>({
-      url: "/api/api.v1.web.cart.increaseItem",
+      url: "/api/v1/api.v1.web.cart.increaseItem",
       data: {
         productId,
       },
@@ -69,11 +71,38 @@ export function useCart() {
     getCart();
   }
 
+  async function checkout(params: {
+    contact: ApiV1WebCartCheckout["request"]["contact"];
+    shipping: ApiV1WebCartCheckout["request"]["shipping"];
+  }) {
+    const { contact, shipping } = params;
+
+    const result = await apiService.request<API<ApiV1WebCartCheckout>>({
+      url: "/api/v1/api.v1.web.cart.checkout",
+      data: {
+        contact,
+        shipping,
+      },
+    });
+
+    removeCart();
+    getCart();
+
+    return result;
+  }
+
+  async function removeCart() {
+    await apiService.request<API<ApiV1WebCartRemove>>({
+      url: "/api/v1/api.v1.web.cart.remove",
+    });
+  }
+
   return {
     cart,
     addItem,
     removeItem,
     increaseItem,
     decreaseItem,
+    checkout,
   };
 }

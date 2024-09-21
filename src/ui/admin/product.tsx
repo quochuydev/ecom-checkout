@@ -55,7 +55,7 @@ export default function Product({
       const data = await apiService.request<
         API<ApiV1AdminProductCategoryGetList>
       >({
-        url: "/api/api.v1.admin.productCategory.getList",
+        url: "/api/v1/api.v1.admin.productCategory.getList",
       });
 
       return data?.items || [];
@@ -93,7 +93,7 @@ export default function Product({
     queryKey: ["product", productId],
     queryFn: async () => {
       const data = await apiService.request<API<ApiV1AdminProductGetList>>({
-        url: "/api/api.v1.admin.product.getList",
+        url: "/api/v1/api.v1.admin.product.getList",
       });
 
       const product = data?.items.find((e) => e.id === productId);
@@ -113,7 +113,7 @@ export default function Product({
 
   const onSubmit = handleSubmit(async (data) => {
     await apiService.request<API<ApiV1AdminProductUpdate>>({
-      url: "/api/api.v1.admin.product.update",
+      url: "/api/v1/api.v1.admin.product.update",
       data: {
         id: productId,
         title: data.title,

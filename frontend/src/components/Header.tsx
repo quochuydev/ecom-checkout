@@ -1,137 +1,127 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import HeaderMobile from "@/components/HeaderMobile";
-import { useCategory } from "@/hooks/useCategory";
+import { useCart } from "@/hooks/useCart";
 import { setting } from "@/settings";
-import { Bars3Icon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Cart from "./Cart";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-  const { productCategories } = useCategory();
+  const [cartOpen, setCartOpen] = useState(false);
+  const { cart } = useCart();
+
+  const totalItems = cart?.lineItems?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
 
   return (
-    <div className="bg-white">
+    <div className="bg-white sticky top-0 z-50 shadow-sm">
       <HeaderMobile
-        {...{
-          productCategories,
-          mobileMenuOpen,
-          setMobileMenuOpen,
-        }}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
       />
 
-      <header className="relative z-10">
+      <header className="relative">
         <nav aria-label="Top">
-          {/* Top navigation */}
-          <div className="bg-gray-900">
+          {/* Top bar */}
+          <div className="bg-primary">
             <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-              {/* Currency selector */}
-              <form className="hidden lg:block lg:flex-1">
-                <div className="flex">
-                  <label htmlFor="desktop-currency" className="sr-only">
-                    Currency
-                  </label>
-                  <div className="group relative -ml-2 rounded-md border-transparent bg-gray-900 focus-within:ring-2 focus-within:ring-white">
-                    <select
-                      id="desktop-currency"
-                      name="currency"
-                      className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
-                    >
-                      {setting.currencies.map((currency) => (
-                        <option key={currency}>{currency}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </form>
-
-              <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                <a
-                  href="/api/auth/signin"
-                  className="text-sm font-medium text-white hover:text-gray-100"
-                >
-                  Sign in
+              <div className="flex items-center space-x-4">
+                <a href={`mailto:${setting.contact.email}`} className="flex items-center text-sm text-white/80 hover:text-white">
+                  {setting.contact.email}
                 </a>
+              </div>
+              <div className="hidden lg:flex lg:items-center lg:space-x-6">
+                {setting.offers.map((offer) => (
+                  <span key={offer.name} className="text-xs text-white/70">
+                    {offer.name} - {offer.description}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <a href={setting.marketplaces.shopee.url}>
+                    <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-5 w-auto brightness-0 invert" />
+                  </a>
+                  <a href={setting.marketplaces.lazada.url}>
+                    <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-5 w-auto brightness-0 invert" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Secondary navigation */}
-          <div className="bg-white">
-            <div className="border-b border-gray-200">
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
-                  {/* Logo (lg+) */}
-                  <div className="hidden lg:flex lg:items-center">
-                    <a href="/">
-                      <span className="sr-only">Your Company</span>
-                      <img className="h-8 w-auto" src="/logo.png" alt="" />
-                    </a>
-                  </div>
+          {/* Main navigation */}
+          <div className="bg-white border-b border-gray-100">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="flex h-16 items-center justify-between">
+                {/* Mobile menu button */}
+                <div className="flex items-center lg:hidden">
+                  <button
+                    type="button"
+                    className="-ml-2 rounded-md p-2 text-gray-400 hover:text-gray-500"
+                    onClick={() => setMobileMenuOpen(true)}
+                  >
+                    <span className="sr-only">Open menu</span>
+                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </div>
 
-                  <div className="hidden h-full lg:flex">
-                    {/* Mega menus */}
-                    {setting.pages.map((page) => (
-                      <a
-                        key={page.name}
-                        href={page.href}
-                        className="ml-8 flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                      >
-                        {page.name}
-                      </a>
-                    ))}
-                  </div>
+                {/* Logo */}
+                <a href="/" className="flex items-center">
+                  <img
+                    className="h-10 w-auto brightness-0"
+                    src={setting.logo}
+                    alt={setting.title}
+                  />
+                </a>
 
-                  {/* Mobile menu and search (lg-) */}
-                  <div className="flex flex-1 items-center lg:hidden">
-                    <button
-                      type="button"
-                      className="-ml-2 rounded-md bg-white p-2 text-gray-400"
-                      onClick={() => setMobileMenuOpen(true)}
+                {/* Desktop nav links */}
+                <div className="hidden lg:flex lg:items-center lg:space-x-1">
+                  {setting.pages.map((page) => (
+                    <a
+                      key={page.name}
+                      href={page.href}
+                      className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors rounded-md hover:bg-gray-50"
                     >
-                      <span className="sr-only">Open menu</span>
-                      <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
+                      {page.name}
+                    </a>
+                  ))}
+                </div>
 
-                  {/* Logo (lg-) */}
-                  <a href="#" className="lg:hidden">
-                    <span className="sr-only">Your Company</span>
-                    <img src="/logo.png" alt="" className="h-8 w-auto" />
-                  </a>
+                {/* Right actions */}
+                <div className="flex items-center space-x-4">
+                  <button
+                    type="button"
+                    className="p-2 text-gray-400 hover:text-gray-500 hidden sm:block"
+                  >
+                    <MagnifyingGlassIcon className="h-5 w-5" />
+                  </button>
 
-                  <div className="flex flex-1 items-center justify-end">
-                    <div className="flex items-center lg:ml-8">
-                      <div className="flow-root">
-                        <a
-                          href="#"
-                          className="group -m-2 flex items-center p-2"
-                          onClick={() => setOpen(true)}
-                        >
-                          <ShoppingCartIcon
-                            className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                            aria-hidden="true"
-                          />
-                          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                            0
-                          </span>
-                          <span className="sr-only">
-                            items in cart, view bag
-                          </span>
-                        </a>
-
-                        <Cart open={open} setOpen={setOpen} />
-                      </div>
-                    </div>
-                  </div>
+                  <button
+                    type="button"
+                    className="group relative p-2 text-gray-400 hover:text-gray-500"
+                    onClick={() => setCartOpen(true)}
+                  >
+                    <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
+                    {totalItems > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-white">
+                        {totalItems}
+                      </span>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </nav>
       </header>
+
+      <Cart open={cartOpen} setOpen={setCartOpen} />
     </div>
   );
 }

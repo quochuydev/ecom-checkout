@@ -29,7 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Product } from "@ecom/types";
+import { ProductShape as Product } from "@/types/api";
 import { useRouter } from "next/navigation";
 
 export default function Products({ products }: { products: Product[] }) {

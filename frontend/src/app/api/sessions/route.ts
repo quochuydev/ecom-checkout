@@ -1,8 +1,8 @@
-import { authOptions } from '@/lib/next-auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await auth.api.getSession({ headers: await headers() });
   return NextResponse.json(session);
 }

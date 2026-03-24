@@ -98,7 +98,7 @@ export default function Home({ productCategories, products }: any) {
 
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
               {productCategories?.map((collection: any) => (
-                <CollectionCard key={collection.id} collection={collection} />
+                <CollectionCard key={collection.id} productCategory={collection} />
               ))}
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function Home({ productCategories, products }: any) {
         <div aria-hidden="true" className="absolute inset-0">
           <div className="absolute inset-0 mx-auto max-w-7xl overflow-hidden xl:px-8">
             <img
-              src="https://tailwindui.com/img/ecommerce-images/home-page-02-sale-full-width.jpg"
+              src="/banner.png"
               alt=""
               className="h-full w-full object-cover object-center"
             />

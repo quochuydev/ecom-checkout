@@ -1,35 +1,49 @@
 import React from "react";
 import ProductUI from "@/ui/product";
-import { prisma } from "@/lib/prisma";
+import { db } from "@/db";
+import { product, image, imageToProduct } from "@/db/schema";
+import { eq, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { Product } from "@ecom/types";
 
-export default async function Page({ params: { slug } }: any) {
-  const product = await prisma.product
-    .findFirst({
-      where: {
-        slug,
-      },
-      include: {
-        images: true,
-      },
-    })
-    .catch(() => null);
+export default async function Page({ params }: any) {
+  const { slug } = await params;
 
-  if (!product) redirect("/");
+  const [found] = await db
+    .select()
+    .from(product)
+    .where(eq(product.slug, slug));
 
-  const products = await prisma.product.findMany({
-    include: {
-      images: true,
-    },
-  });
+  if (!found) redirect("/");
 
-  console.log(`debug:product`, product);
+  const imgLinks = await db.select().from(imageToProduct).where(eq(imageToProduct.b, found.id));
+  const imgIds = imgLinks.map((l) => l.a);
+  const images = imgIds.length > 0
+    ? await db.select().from(image).where(inArray(image.id, imgIds))
+    : [];
+
+  const productWithImages = { ...found, images };
+
+  const allProducts = await db.select().from(product);
+  const allImgLinks = allProducts.length > 0
+    ? await db.select().from(imageToProduct).where(inArray(imageToProduct.b, allProducts.map((p) => p.id)))
+    : [];
+  const allImgIds = allImgLinks.map((l) => l.a);
+  const allImages = allImgIds.length > 0
+    ? await db.select().from(image).where(inArray(image.id, allImgIds))
+    : [];
+
+  const relatedProducts = allProducts
+    .filter((p) => p.id !== found.id)
+    .slice(0, 8)
+    .map((p) => ({
+      ...p,
+      images: allImgLinks.filter((l) => l.b === p.id).map((l) => allImages.find((i) => i.id === l.a)!).filter(Boolean),
+    }));
 
   return (
     <ProductUI
-      product={product as Product}
-      relatedProducts={products.slice(0, 8)}
+      product={productWithImages as any}
+      relatedProducts={relatedProducts.slice(0, 8)}
     />
   );
 }

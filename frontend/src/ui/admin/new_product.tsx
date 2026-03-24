@@ -30,7 +30,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import { ApiService } from "@/lib/api-caller";
-import { API, ApiV1AdminProductCreate } from "@ecom/types";
+import { API, ApiV1AdminProductCreate } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -65,7 +65,7 @@ export default function NewProduct({ apiUrl }: { apiUrl: string }) {
 
   const onSubmit = handleSubmit(async (data) => {
     const product = await apiService.request<API<ApiV1AdminProductCreate>>({
-      url: "/api/v1/api.v1.admin.product.create",
+      url: "/api/v1/admin/products", method: "post",
       data: {
         title: data.title,
         description: data.description,

@@ -1,212 +1,137 @@
+import siteInfo from "../public/site-info.json";
+
+const c = siteInfo.company;
+
 export const setting = {
-  title: "The Heal Spa - Gội Đầu Dưỡng Sinh",
-  description: `All the charts, datepickers, and notifications in the world can't beat checking off some items on a paper card.`,
-  logo: "/thehealspa/logo.png",
+  title: c.name,
+  description: c.tagline,
+  legalName: c.legalName,
+  logo: "/images/logo.svg",
   pages: [
-    {
-      name: "Home",
-      href: "/",
-    },
-    {
-      name: "Categories",
-      href: "/categories",
-    },
-    {
-      name: "About us",
-      href: "/pages/about-us",
-    },
-    {
-      name: "Blogs",
-      href: "/blogs",
-    },
+    { name: "Trang Chủ", href: siteInfo.navigation.home },
+    { name: "Gọng Kính", href: siteInfo.navigation.frames },
+    { name: "Kính Mát", href: siteInfo.navigation.sunglasses },
+    { name: "Tròng Kính", href: siteInfo.navigation.lenses },
+    { name: "Bộ Sưu Tập", href: siteInfo.navigation.collections },
+    { name: "Tin Tức", href: siteInfo.navigation.blog },
   ],
-  currencies: ["USD", "EUR"],
-  offers: [],
-  banner: {
-    title: "avada flux",
-    description: "welcome to my website",
-    button: "Contact me",
-    link: "https://www.google.com/",
-  },
-  overview: {
-    title: "Everything You Need On Your Wrist",
-    description:
-      "Sed non mauris vitae erat consequat auctor eu in elit. Class aptent tasociosqu ad litora torquent peer inpet mauris in erat justo. Nullam ac urna eu felis. Cras eleifend aliquam turpis, vitae aliquam eros blandit vel. Praesent id dolor id esteod maximus id vitae eros. Nullam vehicula mattis sapien, sit cras volutpat, ante vulputate lacinia fringilla. Mauris lobortis ex id pellentesque tincidunt.",
-  },
-  features: [
+  currencies: [c.currency],
+  offers: [
     {
-      title: "Fantastic Apps Available",
-      description:
-        "Sed non mauris vitae erat consequat auctor in elit. Class aptent tasociosqu ad litora torquent peer incepet mauris in erat justo. Aliquam tincidunt ullamcorper viverra.",
-      image: "",
+      name: "Miễn phí vệ sinh kính",
+      description: `Tại ${c.storeCount} cửa hàng toàn quốc`,
+      href: "#",
     },
     {
-      title: "Easy & Safe Payments",
-      description:
-        "Sed non mauris vitae erat consequat auctor in elit. Class aptent tasociosqu ad litora torquent peer incepet mauris in erat justo. Aliquam tincidunt ullamcorper viverra.",
-      image: "",
+      name: "Giao hàng nhanh",
+      description: "Từ 2 ngày trên toàn quốc",
+      href: "#",
     },
     {
-      title: "The Apps You Need",
-      description:
-        "Sed non mauris vitae erat consequat auctor in elit. Class aptent tasociosqu ad litora torquent peer incepet mauris in erat justo. Aliquam tincidunt ullamcorper viverra.",
-      image: "",
-    },
-    {
-      title: "Simple Interaction Experience",
-      description:
-        "Sed non mauris vitae erat consequat auctor in elit. Class aptent tasociosqu ad litora torquent peer incepet mauris in erat justo. Aliquam tincidunt ullamcorper viverra.",
-      image: "",
-    },
-  ],
-  technology: {
-    title: "The Most Powerful Software. Say Hello To Flux OS",
-    description:
-      "Sed non mauris vitae erat consequat auctor eu in elit. Class aptent tasociosqu ad litora torquent peer inpet mauris in erat justo. Nullam ac urna eu felis. Cras eleifend aliquam turpis, vitae aliquam eros blandit vel. Praesent id dolor id esteod maximus id vitae eros. Nullam vehicula mattis sapien.",
-    image: "",
-  },
-  testimonials: [
-    {
-      id: 1,
-      quote:
-        "My order arrived super quickly. The product is even better than I hoped it would be. Very happy customer over here!",
-      attribution: "Sarah Peters, New Orleans",
-    },
-    {
-      id: 2,
-      quote:
-        "I had to return a purchase that didn’t fit. The whole process was so simple that I ended up ordering two new items!",
-      attribution: "Kelly McPherson, Chicago",
-    },
-    {
-      id: 3,
-      quote:
-        "Now that I’m on holiday for the summer, I’ll probably order a few more shirts. It’s just so convenient, and I know the quality will always be there.",
-      attribution: "Chris Paul, Phoenix",
+      name: "Thu cũ đổi mới",
+      description: "Tiết kiệm đến 600.000đ",
+      href: "#",
     },
   ],
   banners: [
     {
-      src: `/banner.png`,
-      alt: "Rejuvenate at Oasis Spa",
-      title: "Rejuvenate at Oasis Spa",
-      description:
-        "Experience the ultimate in relaxation and pampering at our luxurious spa.",
-      button: "Explore Packages",
+      src: "/images/ECOM-2.1-1.png",
+      alt: `${c.name} Collection`,
+      title: "Bộ Sưu Tập Mới",
+      description: `Khám phá phong cách kính mắt thời thượng cùng ${c.name}`,
+      button: "Khám phá ngay",
+      buttonUrl: siteInfo.navigation.collections,
+    },
+    {
+      src: "/images/banner-web-thang-5-1024x449.png",
+      alt: `${c.name} Promotion`,
+      title: "Ưu Đãi Đặc Biệt",
+      description: `Chương trình khuyến mãi hấp dẫn tại ${c.name}`,
+      button: "Xem ngay",
+      buttonUrl: siteInfo.navigation.collections,
+    },
+    {
+      src: "/images/Design-Banner-CT-Check-in-G.O-BMT-G.O-44-1024x1024.jpg",
+      alt: `${c.name} Store`,
+      title: c.name,
+      description: c.tagline,
+      button: "Tìm cửa hàng",
       buttonUrl: "#",
     },
+  ],
+  collections: siteInfo.collections.map((name, i) => ({
+    name,
+    image: `/images/${
+      [
+        "1.-MONG-NHAN-TINH-HOA.webp",
+        "2.-shades-brilliance.webp",
+        "3.-Aurora-Alloy.webp",
+        "4.-THE-ROCK.webp",
+        "5.-Red-velvet.webp",
+        "6.-Witching-Aura.webp",
+        "7.-Disc-Dream.webp",
+        "8.-Inde-Girl_.webp",
+      ][i]
+    }`,
+    href: siteInfo.navigation.collections,
+  })),
+  features: [
     {
-      src: `/banner.png`,
-      alt: "Escape to Tranquility",
-      title: "Escape to Tranquility",
-      description:
-        "Indulge in our luxurious spa treatments and experience true relaxation.",
-      button: "Explore Packages",
-      buttonUrl: "#",
+      title: `${c.storeCount} Cửa Hàng`,
+      description: "Hệ thống cửa hàng rộng khắp toàn quốc, phục vụ tận tâm",
+      image: "/images/store-1.png",
+    },
+    {
+      title: "Miễn Phí Vệ Sinh",
+      description: "Dịch vụ vệ sinh kính miễn phí trọn đời tại mọi cửa hàng",
+      image: "/images/renew.svg",
+    },
+    {
+      title: "Hỗ Trợ Đo Mắt",
+      description: "Đội ngũ chuyên gia tư vấn đo thị lực chuyên nghiệp",
+      image: "/images/eye-measurement.svg",
+    },
+    {
+      title: "Hoàn Tiền",
+      description: "Chính sách hoàn tiền linh hoạt, đảm bảo quyền lợi khách hàng",
+      image: "/images/cashback.svg",
     },
   ],
-  products: [
-    {
-      name: "Aromatherapy Candles",
-      description:
-        "Indulge in the calming scents of our premium aromatherapy candles.",
-      price: "$19.99",
-      images: [
-        {
-          src: `/thehealspa/product_1.jpg`,
-          alt: "Aromatherapy Candles",
-        },
-      ],
-    },
-    {
-      name: "Luxury Bath Salts",
-      description: "Soak away your stress with our premium bath salts.",
-      price: "$19.99",
-      images: [
-        {
-          src: `/thehealspa/product_2.jpg`,
-          alt: "Luxury Bath Salts",
-        },
-      ],
-    },
-    {
-      name: "Organic Body Oils",
-      description: "Nourish your skin with our luxurious organic body oils.",
-      price: "$19.99",
-      images: [
-        {
-          src: `/thehealspa/product_3.jpg`,
-          alt: "Organic Body Oils",
-        },
-      ],
-    },
-    {
-      name: "Aromatherapy Candles",
-      description:
-        "Indulge in the calming scents of our premium aromatherapy candles.",
-      price: "$19.99",
-      images: [
-        {
-          src: `/thehealspa/product_4.jpg`,
-          alt: "Aromatherapy Candles",
-        },
-      ],
-    },
+  ambassadors: [
+    { name: "Isaac", image: "/images/Isaac@2x.webp" },
+    { name: "Long Vũ", image: "/images/long-vu@2x.webp" },
+    { name: "Khánh Vy", image: "/images/khanh-vy@2x.webp" },
   ],
-  gallery: [
+  testimonials: [
     {
-      src: "/thehealspa/gallery_1.jpg",
-      alt: "Gallery 1",
+      id: 1,
+      quote: `Chất lượng kính rất tốt, đội ngũ tư vấn nhiệt tình. Mình rất hài lòng với dịch vụ tại ${c.name}!`,
+      attribution: "Khách hàng tại TP.HCM",
     },
     {
-      src: "/thehealspa/gallery_2.jpg",
-      alt: "Gallery 2",
+      id: 2,
+      quote: "Gọng kính đẹp, nhẹ và rất thoải mái khi đeo cả ngày. Sẽ quay lại mua thêm!",
+      attribution: "Khách hàng tại Hà Nội",
     },
     {
-      src: "/thehealspa/gallery_3.jpg",
-      alt: "Gallery 3",
-    },
-    {
-      src: "/thehealspa/gallery_4.jpg",
-      alt: "Gallery 4",
-    },
-  ],
-  blogs: [
-    {
-      title: "The Heal Spa",
-      description:
-        "Experience the ultimate in relaxation and pampering at our luxurious spa.",
-      src: `/thehealspa/blog_1.jpg`,
-      alt: "Rejuvenate at Oasis Spa",
-    },
-    {
-      title: "The Heal Spa",
-      description:
-        "Experience the ultimate in relaxation and pampering at our luxurious spa.",
-      src: `/thehealspa/blog_2.jpg`,
-      alt: "Rejuvenate at Oasis Spa",
-    },
-    {
-      title: "The Heal Spa",
-      description:
-        "Experience the ultimate in relaxation and pampering at our luxurious spa.",
-      src: `/thehealspa/blog_3.jpg`,
-      alt: "Rejuvenate at Oasis Spa",
-    },
-    {
-      title: "The Heal Spa",
-      description:
-        "Experience the ultimate in relaxation and pampering at our luxurious spa.",
-      src: `/thehealspa/blog_4.jpg`,
-      alt: "Rejuvenate at Oasis Spa",
+      id: 3,
+      quote: `Dịch vụ đo mắt chuyên nghiệp, tư vấn tròng kính phù hợp. Cảm ơn ${c.name}!`,
+      attribution: "Khách hàng tại Đà Nẵng",
     },
   ],
   contact: {
-    address:
-      "529/78 Huỳnh Văn Bánh, phường 13, quận Phú Nhuận, Ho Chi Minh City, Vietnam",
-    phone: "0382986xxx",
-    email: "quochuy.dev@gmail.com",
-    facebook: "https://www.facebook.com/#",
-    instagram: "https://www.instagram.com/#",
+    email: c.contact.email,
+    address: c.contact.address,
+    website: c.website,
+  },
+  gallery: [
+    { src: "/images/339648934_742325727600337_5294432833355861863_n-1024x1024.jpg", alt: `${c.name} Store` },
+    { src: "/images/339573280_1281695959446380_8805873728320224173_n-1024x1024.jpg", alt: `${c.name} Products` },
+    { src: "/images/370151473_779875627481731_4947430330752365522_n-e1723453918785-956x1024.jpg", alt: `${c.name} Style` },
+    { src: "/images/354453278_654805029864554_1443861880791195682_n-e1723452773728-1024x942.jpg", alt: `${c.name} Collection` },
+  ],
+  marketplaces: {
+    shopee: { icon: "/images/shopee.png", url: "#" },
+    lazada: { icon: "/images/lazada.png", url: "#" },
   },
 };

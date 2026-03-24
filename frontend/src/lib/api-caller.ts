@@ -1,6 +1,6 @@
 export type Default = {
   url: string;
-  method: "get" | "post" | "put" | "delete";
+  method: "get" | "post" | "put" | "patch" | "delete";
   params?: object;
   query?: object;
   data?: any; //unknown
@@ -71,7 +71,8 @@ export async function sendRequest<T extends Default>(
 
   const compiledUrl = params ? compile<T>(url, params) : url;
   const pathUrl = query ? objectToQueryString(compiledUrl, query) : compiledUrl;
-  const response = await fetch(new URL(pathUrl, appUrl).toString(), options);
+  const base = appUrl || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3333');
+  const response = await fetch(new URL(pathUrl, base).toString(), options);
   const result = await response.json();
 
   if (response.status >= 400) {
@@ -119,5 +120,5 @@ export function objectToQueryString(url: string, query: any): string {
     )
     .join("&");
 
-  return url.includes("?") ? `${url}${queryString}` : `${url}?${queryString}`;
+  return url.includes("?") ? `${url}&${queryString}` : `${url}?${queryString}`;
 }

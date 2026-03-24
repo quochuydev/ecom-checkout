@@ -1,11 +1,9 @@
 import React from "react";
 import Blog from "@/ui/blog/Blog";
-import { prisma } from "@/lib/prisma";
+import { db } from "@/db";
+import { blog } from "@/db/schema";
 
-export default async function Page({ params: { slug } }: any) {
-  const blog = await prisma.blog.findFirst({
-    where: {},
-  });
-
-  return <Blog blog={blog} />;
+export default async function Page() {
+  const [found] = await db.select().from(blog).limit(1);
+  return <Blog blog={found ?? null} />;
 }

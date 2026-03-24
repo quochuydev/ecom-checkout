@@ -1,33 +1,42 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { formatPrice } from "@/lib/constants";
 
-import { Product } from "@ecom/types";
+export default function ProductCard({ product }: { product: any }) {
+  const imageUrl = product.images?.[0]?.url || "/placeholder.svg";
+  const hasDiscount = product.regularPrice && product.regularPrice > product.price;
 
-export default function ProductCard({ product }: { product: Product }) {
   return (
-    <div
-      key={product.id}
-      className="inline-flex w-64 flex-col lg:mb-10 lg:w-auto"
-    >
-      <div className="group relative">
-        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+    <div className="group relative">
+      <a href={`/products/${product.slug}`} className="block">
+        <div className="aspect-square overflow-hidden rounded-xl bg-gray-100">
           <img
-            src={product.images?.[0]?.url}
-            alt={product.images?.[0]?.fileName}
-            className="h-full w-full object-cover object-center group-hover:opacity-75"
+            src={imageUrl}
+            alt={product.title}
+            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
           />
+          {hasDiscount && (
+            <span className="absolute top-3 left-3 rounded-full bg-red-500 px-2.5 py-1 text-xs font-semibold text-white">
+              -{Math.round(((product.regularPrice - product.price) / product.regularPrice) * 100)}%
+            </span>
+          )}
         </div>
-        <div className="mt-4">
-          <a
-            href={`/products/${product.slug}`}
-            className="font-semibold text-gray-900 hover:underline"
-          >
-            <span className="absolute inset-0" />
+        <div className="mt-3 space-y-1">
+          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-primary transition-colors">
             {product.title}
-          </a>
-          <p className="mt-1 text-gray-900">{product.price}</p>
+          </h3>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-bold text-primary">
+              {formatPrice(product.price)}
+            </p>
+            {hasDiscount && (
+              <p className="text-xs text-gray-400 line-through">
+                {formatPrice(product.regularPrice)}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   );
 }

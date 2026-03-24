@@ -115,8 +115,8 @@ export default function LayoutMenuMobile({ sidebarOpen, setSidebarOpen }: any) {
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="/logo.png"
-                    alt="Your Company"
+                    src="/images/logo.svg"
+                    alt="Logo"
                   />
                 </div>
                 <nav className="flex flex-1 flex-col">

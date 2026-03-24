@@ -26,7 +26,7 @@ import {
   ApiV1AdminProductUpdate,
   ApiV1AdminProductGetList,
   ApiV1AdminProductCategoryGetList,
-} from "@ecom/types";
+} from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -55,7 +55,7 @@ export default function Product({
       const data = await apiService.request<
         API<ApiV1AdminProductCategoryGetList>
       >({
-        url: "/api/v1/api.v1.admin.productCategory.getList",
+        url: "/api/v1/admin/categories", method: "get",
       });
 
       return data?.items || [];
@@ -93,7 +93,7 @@ export default function Product({
     queryKey: ["product", productId],
     queryFn: async () => {
       const data = await apiService.request<API<ApiV1AdminProductGetList>>({
-        url: "/api/v1/api.v1.admin.product.getList",
+        url: "/api/v1/admin/products", method: "get",
       });
 
       const product = data?.items.find((e) => e.id === productId);
@@ -113,7 +113,7 @@ export default function Product({
 
   const onSubmit = handleSubmit(async (data) => {
     await apiService.request<API<ApiV1AdminProductUpdate>>({
-      url: "/api/v1/api.v1.admin.product.update",
+      url: `/api/v1/admin/products/${productId}`, method: "patch" as any,
       data: {
         id: productId,
         title: data.title,

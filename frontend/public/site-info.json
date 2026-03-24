@@ -1,0 +1,68 @@
+{
+  "company": {
+    "name": "Optica",
+    "legalName": "Optica Eyewear Co., Ltd.",
+    "tagline": "See better, look great",
+    "description": "Premium eyewear retailer offering a curated selection of frames, sunglasses, and lenses for every style and need.",
+    "contact": {
+      "email": "hello@cappuai.com",
+      "address": "District 1, Ho Chi Minh City, Vietnam"
+    },
+    "website": "https://cappuai.com",
+    "currency": "VND",
+    "storeCount": "20+"
+  },
+  "owner": {
+    "name": "Demo Owner",
+    "email": "demo@cappuai.com"
+  },
+  "navigation": {
+    "home": "/",
+    "frames": "/categories/gong-kinh",
+    "sunglasses": "/categories/kinh-mat",
+    "lenses": "/categories/trong-kinh",
+    "collections": "/categories",
+    "blog": "/blogs"
+  },
+  "productCategories": {
+    "frames": {
+      "name": "Gọng Kính",
+      "types": ["Metal", "Titanium", "Alloy", "Oval", "Cat-eye", "Plastic"]
+    },
+    "sunglasses": {
+      "name": "Kính Mát",
+      "types": ["Women's", "Men's", "Children's"]
+    },
+    "lenses": {
+      "name": "Tròng Kính",
+      "types": [
+        "Ultra-thin",
+        "Blue light blocking",
+        "Color-changing",
+        "Prescription",
+        "UV protection"
+      ]
+    }
+  },
+  "collections": [
+    "Classic Collection",
+    "Shades Brilliance",
+    "Aurora Alloy",
+    "Urban Edge",
+    "Red Velvet",
+    "Midnight Aura",
+    "Disco Dream",
+    "Indie Style"
+  ],
+  "keyFeatures": [
+    "20+ store locations",
+    "Free cleaning service",
+    "Fast shipping nationwide",
+    "Trade-in program",
+    "Eye measurement support"
+  ],
+  "marketplaces": {
+    "shopee": true,
+    "lazada": true
+  }
+}

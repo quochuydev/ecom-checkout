@@ -1,389 +1,252 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useCart } from "@/hooks/useCart";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { formatPrice } from "@/lib/constants";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z, { array, object, string } from "zod";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
-export default function Page() {
+type CheckoutForm = {
+  contact: { email: string };
+  shipping: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    address: string;
+    city: string;
+    country: string;
+    province: string;
+    postalCode: string;
+  };
+};
+
+export default function Checkout() {
   const { cart, checkout } = useCart();
   const [order, setOrder] = useState<any>(null);
 
-  const schema = object({
-    contact: object({
-      email: string().trim(),
-    }),
-    shipping: object({
-      firstName: string().trim(),
-      lastName: string().trim(),
-      phoneNumber: string().trim(),
-      address: string().trim(),
-      city: string().trim(),
-      country: string().trim(),
-      province: string().trim(),
-      postalCode: string().trim(),
-    }),
-    items: array(
-      object({
-        id: string().trim(),
-        image: string().trim(),
-        title: string().trim(),
-        href: string().trim(),
-        price: z.coerce.number(),
-        quantity: z.coerce.number(),
-        itemTotal: z.coerce.number(),
-      })
-    ),
-    subtotal: z.coerce.number(),
-    total: z.coerce.number(),
-  });
-
-  const { register, handleSubmit } = useForm<z.infer<typeof schema>>({
+  const { register, handleSubmit } = useForm<CheckoutForm>({
     defaultValues: {
-      items: [],
-      subtotal: 0,
-      total: 0,
+      shipping: { country: "Vietnam" },
     },
-    resolver: zodResolver(schema),
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(`debug:data`, data);
-
     const result = await checkout({
-      contact: {
-        email: data.contact.email,
-      },
+      contact: { email: data.contact.email },
       shipping: {
         firstName: data.shipping.firstName,
         lastName: data.shipping.lastName,
-        phoneNumber: data.shipping.phoneNumber,
-        address: data.shipping.address,
-        city: data.shipping.city,
-        country: data.shipping.country,
-        province: data.shipping.province,
-        postalCode: data.shipping.postalCode,
+        address: `${data.shipping.address}, ${data.shipping.province}, ${data.shipping.city}`,
       },
     });
-
     setOrder(result);
   });
 
   if (order?.orderId) {
     return (
-      <main className="mx-auto max-w-7xl px-4 py-16">
-        <div className="flex flex-col mx-auto max-w-2xl lg:max-w-none items-center">
-          <p className="text-4xl font-bold py-4">Thank you for your order!</p>
-          <p className="text-xl">Order ID: {order?.orderId}</p>
+      <main className="mx-auto max-w-2xl px-4 py-20 text-center">
+        <div className="flex flex-col items-center">
+          <CheckCircleIcon className="h-16 w-16 text-green-500" />
+          <h1 className="mt-4 text-3xl font-bold text-gray-900">
+            Cảm ơn bạn đã đặt hàng!
+          </h1>
+          <p className="mt-2 text-gray-500">
+            Mã đơn hàng: <span className="font-medium text-gray-900">{order.orderId}</span>
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+            Chúng tôi sẽ liên hệ với bạn sớm nhất để xác nhận đơn hàng.
+          </p>
+          <a
+            href="/"
+            className="btn-primary mt-8"
+          >
+            Tiếp tục mua sắm
+          </a>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:py-12">
       <div className="mx-auto max-w-2xl lg:max-w-none">
-        <h1 className="sr-only">Checkout</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Thanh Toán</h1>
+
         <form
-          className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16"
+          className="mt-8 lg:grid lg:grid-cols-12 lg:gap-x-12"
           onSubmit={onSubmit}
         >
-          <div>
-            <h2 className="text-lg font-medium text-gray-900">
-              {"Contact information"}
-            </h2>
-
-            <div className="mt-4">
-              <label
-                htmlFor="email-address"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
+          {/* Left column - Form */}
+          <div className="lg:col-span-7">
+            {/* Contact */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Thông tin liên hệ
+              </h2>
+              <div className="mt-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <input
                   {...register("contact.email")}
-                  name="contact.email"
                   type="email"
-                  id="email-address"
+                  id="email"
                   autoComplete="email"
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  placeholder="email@example.com"
                 />
               </div>
             </div>
 
-            <div className="mt-10 border-t border-gray-200 pt-10">
-              <h2 className="text-lg font-medium text-gray-900">
-                Shipping information
+            {/* Shipping */}
+            <div className="mt-8 border-t pt-8">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Thông tin giao hàng
               </h2>
-
-              <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                <div>
-                  <label
-                    htmlFor="first-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    First name
+              <div className="mt-4 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-4">
+                <div className="sm:col-span-2">
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                    Họ và tên
                   </label>
-                  <div className="mt-1">
-                    <input
-                      {...register("shipping.firstName")}
-                      name="shipping.firstName"
-                      type="text"
-                      id="first-name"
-                      autoComplete="given-name"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="last-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Last name
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      {...register("shipping.lastName")}
-                      name="shipping.lastName"
-                      type="text"
-                      id="last-name"
-                      autoComplete="family-name"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+                  <input
+                    {...register("shipping.firstName")}
+                    type="text"
+                    id="firstName"
+                    autoComplete="name"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Phone
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                    Số điện thoại
                   </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      {...register("shipping.phoneNumber")}
-                      name="shipping.phoneNumber"
-                      id="phone"
-                      autoComplete="tel"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+                  <input
+                    {...register("shipping.phoneNumber")}
+                    type="tel"
+                    id="phone"
+                    autoComplete="tel"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label
-                    htmlFor="address"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Address
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                    Địa chỉ
                   </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      {...register("shipping.address")}
-                      name="shipping.address"
-                      id="address"
-                      autoComplete="street-address"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+                  <input
+                    {...register("shipping.address")}
+                    type="text"
+                    id="address"
+                    autoComplete="street-address"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="city"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    City
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                    Thành phố
                   </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      {...register("shipping.city")}
-                      name="shipping.city"
-                      id="city"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+                  <input
+                    {...register("shipping.city")}
+                    type="text"
+                    id="city"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Country
+                  <label htmlFor="province" className="block text-sm font-medium text-gray-700">
+                    Quận / Huyện
                   </label>
-                  <div className="mt-1">
-                    <select
-                      id="country"
-                      {...register("shipping.country")}
-                      name="shipping.country"
-                      autoComplete="country"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    >
-                      <option>Canada</option>
-                      <option>Mexico</option>
-                      <option>United States</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="province"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Province
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      {...register("shipping.province")}
-                      name="shipping.province"
-                      id="province"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="postal-code"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Postal code
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      {...register("shipping.postalCode")}
-                      name="shipping.postalCode"
-                      id="postal-code"
-                      autoComplete="postal-code"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                  </div>
+                  <input
+                    {...register("shipping.province")}
+                    type="text"
+                    id="province"
+                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 border-t border-gray-200 pt-10">
-              <h2 className="text-lg font-medium text-gray-900">Payment</h2>
-
-              <div className="mt-4 grid grid-cols-1 gap-y-6 ">
-                <ul>
-                  <li className="rounded-sm border border-gray-200 p-4">
-                    <input type="radio" name="paymentMethod" id="paypal" />
-                    <label htmlFor="paypal" className="cursor-pointer pl-2">
-                      paypal
-                    </label>
-                  </li>
-                  <li className="rounded-sm border border-t-0 border-gray-200 p-4 ">
-                    <input type="radio" name="paymentMethod" id="credit" />
-                    <label htmlFor="credit" className="cursor-pointer pl-2">
-                      credit card
-                    </label>
-                  </li>
-                </ul>
+            {/* Payment */}
+            <div className="mt-8 border-t pt-8">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Phương thức thanh toán
+              </h2>
+              <div className="mt-4 space-y-3">
+                <label className="flex items-center rounded-lg border-2 border-primary bg-primary/5 p-4 cursor-pointer">
+                  <input type="radio" name="paymentMethod" value="cod" defaultChecked className="text-primary focus:ring-primary" />
+                  <span className="ml-3 text-sm font-medium text-gray-900">
+                    Thanh toán khi nhận hàng (COD)
+                  </span>
+                </label>
+                <label className="flex items-center rounded-lg border p-4 cursor-pointer hover:bg-gray-50">
+                  <input type="radio" name="paymentMethod" value="transfer" className="text-primary focus:ring-primary" />
+                  <span className="ml-3 text-sm font-medium text-gray-900">
+                    Chuyển khoản ngân hàng
+                  </span>
+                </label>
               </div>
             </div>
           </div>
 
-          {/* Order summary */}
-          <div className="mt-10 lg:mt-0">
-            <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
+          {/* Right column - Order Summary */}
+          <div className="mt-10 lg:mt-0 lg:col-span-5">
+            <div className="sticky top-24 rounded-2xl bg-gray-50 p-6">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Đơn hàng của bạn
+              </h2>
 
-            <div className="mt-4 rounded-lg border border-gray-200 bg-white shadow-sm">
-              <h3 className="sr-only">Items in your cart</h3>
-
-              <ul role="list" className="divide-y divide-gray-200">
+              <ul className="mt-4 divide-y divide-gray-200">
                 {cart?.lineItems?.map((item) => (
-                  <li key={item.id} className="flex px-4 py-6 sm:px-6">
-                    <div className="flex-shrink-0">
+                  <li key={item.id} className="flex py-4">
+                    <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
                       <img
-                        src={item.product.images?.[0]?.url}
-                        alt={item.product.images?.[0]?.fileName}
-                        className="w-20 rounded-md"
+                        src={item.product.images?.[0]?.url || "/placeholder.svg"}
+                        alt={item.product.title}
+                        className="h-full w-full object-cover"
                       />
+                      <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-gray-500 text-xs text-white">
+                        {item.quantity}
+                      </span>
                     </div>
-
-                    <div className="ml-6 flex flex-1 flex-col">
-                      <div className="flex">
-                        <div className="min-w-0 flex-1">
-                          <h4 className="text-sm">
-                            <a
-                              href={`/products/${item.product.slug}`}
-                              className="font-medium text-gray-700 hover:text-gray-800"
-                            >
-                              {item.product.title}
-                            </a>
-                          </h4>
-                        </div>
-
-                        <div className="ml-4 flow-root flex-shrink-0">
-                          <button
-                            type="button"
-                            className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
-                          >
-                            <span className="sr-only">Remove</span>
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-1 items-end justify-between">
-                        <p className="mt-1 text-sm font-medium text-gray-900">
-                          ${item.price} X <span>{item.quantity}</span>
-                        </p>
-
-                        <div className="ml-4">
-                          <label htmlFor="quantity" className="sr-only">
-                            Quantity
-                          </label>
-                          <p>${item.quantity}</p>
-                        </div>
-                      </div>
+                    <div className="ml-4 flex flex-1 flex-col justify-center">
+                      <h3 className="text-sm font-medium text-gray-900 line-clamp-1">
+                        {item.product.title}
+                      </h3>
+                      <p className="mt-0.5 text-sm font-semibold text-primary">
+                        {formatPrice(item.price * item.quantity)}
+                      </p>
                     </div>
                   </li>
                 ))}
               </ul>
 
-              <dl className="space-y-6 border-t border-gray-200 px-4 py-6 sm:px-6">
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm">Subtotal</dt>
-                  <dd className="text-sm font-medium text-gray-900">
-                    ${cart?.amount}
+              <dl className="mt-4 space-y-3 border-t pt-4">
+                <div className="flex justify-between text-sm">
+                  <dt className="text-gray-500">Tạm tính</dt>
+                  <dd className="font-medium text-gray-900">
+                    {formatPrice(cart?.amount ?? 0)}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm">Shipping</dt>
-                  <dd className="text-sm font-medium text-gray-900">$0</dd>
+                <div className="flex justify-between text-sm">
+                  <dt className="text-gray-500">Phí vận chuyển</dt>
+                  <dd className="font-medium text-gray-900">Miễn phí</dd>
                 </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm">Taxes</dt>
-                  <dd className="text-sm font-medium text-gray-900">$0</dd>
-                </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                  <dt className="text-base font-medium">Total</dt>
-                  <dd className="text-base font-medium text-gray-900">
-                    ${cart?.amount}
+                <div className="flex justify-between border-t pt-3">
+                  <dt className="text-base font-semibold">Tổng cộng</dt>
+                  <dd className="text-lg font-bold text-primary">
+                    {formatPrice(cart?.amount ?? 0)}
                   </dd>
                 </div>
               </dl>
-            </div>
 
-            <div className="mt-10 border-t border-gray-200">
               <button
                 type="submit"
-                className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                className="btn-primary mt-6 w-full py-3.5"
               >
-                Complete order
+                Đặt hàng
               </button>
             </div>
           </div>

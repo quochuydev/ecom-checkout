@@ -1,23 +1,25 @@
 import Providers from "@/components/ReactQueryProviders";
+import { setting } from "@/settings";
 import { Metadata } from "next";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "E-commerce",
-    template: "%s | Next.js App Router",
+    default: `${setting.title} - ${setting.description}`,
+    template: `%s | ${setting.title}`,
   },
-  description:
-    "A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.",
+  description: `${setting.title} - ${setting.description}`,
   openGraph: {
-    title: "Next.js App Router Playground",
-    description:
-      "A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.",
-    images: [],
+    title: `${setting.title} - ${setting.description}`,
+    description: `${setting.title} - ${setting.description}`,
+    images: ["/images/ECOM-2.1-1.png"],
   },
   twitter: {
     card: "summary_large_image",
+  },
+  icons: {
+    icon: "/images/cropped-cropped-364080966_297037076171649_5977668929998035559_n-1.jpg",
   },
 };
 
@@ -27,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="vi">
+      <body className="antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import CollectionCard from "@/components/CollectionCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
@@ -13,159 +12,366 @@ import {
 } from "@/components/ui/carousel";
 import { ROUTING } from "@/lib/constants";
 import { setting } from "@/settings";
-import { Product, ProductCategory } from "@ecom/types";
 
 export default function Home({
   products,
   productCategories,
 }: {
-  products: Product[];
-  productCategories: ProductCategory[];
+  products: any[];
+  productCategories: any[];
 }) {
   return (
     <>
       <Header />
-      <main className="bg-white">
+      <main>
+        {/* Hero Banner Carousel */}
         <section className="relative">
-          <Carousel>
+          <Carousel className="w-full" opts={{ loop: true }}>
             <CarouselContent>
               {setting.banners.map((banner, index) => (
                 <CarouselItem key={index}>
-                  <img
-                    src={banner.src}
-                    alt={banner.alt}
-                    className="object-cover"
-                  />
+                  <div className="relative">
+                    <img
+                      src={banner.src}
+                      alt={banner.alt}
+                      className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
+                      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
+                        <div className="max-w-lg">
+                          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                            {banner.title}
+                          </h2>
+                          <p className="mt-3 text-base sm:text-lg text-white/80">
+                            {banner.description}
+                          </p>
+                          <a
+                            href={banner.buttonUrl}
+                            className="btn-secondary mt-6"
+                          >
+                            {banner.button}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="text-primary hover:text-primary/80 absolute left-4 top-1/2 z-10 -translate-y-1/2">
-              <ChevronLeftIcon className="h-8 w-8" />
-            </CarouselPrevious>
-            <CarouselNext className="text-primary hover:text-primary/80 absolute right-4 top-1/2 z-10 -translate-y-1/2">
-              <ChevronRightIcon className="h-8 w-8" />
-            </CarouselNext>
+            <CarouselPrevious className="absolute left-4 top-1/2 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white border-0 h-10 w-10" />
+            <CarouselNext className="absolute right-4 top-1/2 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white border-0 h-10 w-10" />
           </Carousel>
         </section>
 
-        <section aria-labelledby="trending-heading" className="bg-white">
-          <div className="py-16 lg:mx-auto lg:max-w-7xl lg:px-8 lg:py-24">
-            <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
-              <h2
-                id="trending-heading"
-                className="text-2xl font-bold tracking-tight text-gray-900"
-              >
-                Trending products
+        {/* Key Features Bar */}
+        <section className="bg-white border-b">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100">
+              {setting.features.map((feature) => (
+                <div key={feature.title} className="flex items-center gap-3 py-6 px-4">
+                  <img src={feature.image} alt={feature.title} className="h-10 w-10 flex-shrink-0 object-contain" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">{feature.title}</p>
+                    <p className="text-xs text-gray-500 hidden sm:block">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Product Categories */}
+        <section className="bg-white py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                Danh Mục Sản Phẩm
               </h2>
+              <p className="mt-2 text-gray-500">
+                Khám phá bộ sưu tập kính mắt đa dạng tại {setting.title}
+              </p>
+            </div>
+
+            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {productCategories.map((cat: any) => (
+                <a
+                  key={cat.id}
+                  href={`/categories/${cat.slug}`}
+                  className="group relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]"
+                >
+                  <img
+                    src={cat.image?.url || "/placeholder.svg"}
+                    alt={cat.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-xl font-bold text-white">{cat.title}</h3>
+                    <span className="mt-3 inline-flex items-center text-sm font-medium text-secondary">
+                      Xem thêm
+                      <svg className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Trending Products */}
+        <section className="bg-gray-50 py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                  Sản Phẩm Nổi Bật
+                </h2>
+                <p className="mt-2 text-gray-500">
+                  Những mẫu kính được yêu thích nhất
+                </p>
+              </div>
               <a
                 href={ROUTING.COLLECTIONS}
-                className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+                className="hidden sm:inline-flex items-center rounded-full border border-gray-300 px-5 py-2 text-sm font-medium text-gray-700 hover:bg-white transition-colors"
               >
-                See everything
-                <span aria-hidden="true"> &rarr;</span>
+                Xem tất cả
+                <svg className="ml-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </a>
             </div>
 
-            <div className="relative mt-8">
-              <div className="relative w-full overflow-x-auto">
-                <div
-                  role="list"
-                  className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0"
+            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            <div className="mt-8 text-center sm:hidden">
+              <a
+                href={ROUTING.COLLECTIONS}
+                className="inline-flex items-center text-sm font-semibold text-primary hover:text-primary/80"
+              >
+                Xem tất cả sản phẩm
+                <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Collections Showcase */}
+        <section className="bg-white py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                Bộ Sưu Tập
+              </h2>
+              <p className="mt-2 text-gray-500">
+                Phong cách riêng biệt trong từng bộ sưu tập
+              </p>
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {setting.collections.map((collection) => (
+                <a
+                  key={collection.name}
+                  href={collection.href}
+                  className="group relative overflow-hidden rounded-xl aspect-square"
                 >
-                  {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
+                  <img
+                    src={collection.image}
+                    alt={collection.name}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-sm sm:text-base font-bold text-white">
+                      {collection.name}
+                    </h3>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Brand Story / About Section */}
+        <section className="relative overflow-hidden bg-primary py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <span className="text-secondary text-sm font-semibold uppercase tracking-wider">
+                  Câu Chuyện {setting.title}
+                </span>
+                <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white leading-tight">
+                  {setting.description.split(",")[0]},{" "}
+                  <span className="text-secondary">{setting.description.split(",").slice(1).join(",").trim()}</span>
+                </h2>
+                <p className="mt-6 text-white/70 leading-relaxed">
+                  {setting.title} mang đến trải nghiệm mua sắm kính mắt hoàn hảo với hệ thống {setting.features[0].title.toLowerCase()} trên toàn quốc.
+                  Chúng tôi cam kết cung cấp sản phẩm chất lượng cao, thiết kế thời thượng cùng dịch vụ chăm sóc khách hàng tận tâm.
+                </p>
+                <div className="mt-8 grid grid-cols-3 gap-6">
+                  <div>
+                    <p className="text-3xl font-bold text-secondary">50+</p>
+                    <p className="text-sm text-white/60">Cửa hàng</p>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-secondary">1000+</p>
+                    <p className="text-sm text-white/60">Mẫu kính</p>
+                  </div>
+                  <div>
+                    <p className="text-3xl font-bold text-secondary">100K+</p>
+                    <p className="text-sm text-white/60">Khách hàng</p>
+                  </div>
+                </div>
+                <a
+                  href="#"
+                  className="btn-secondary mt-8"
+                >
+                  Tìm hiểu thêm
+                </a>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <img
+                    src="/images/Tinh-than-The-Rock1-1024x682.webp"
+                    alt="Store"
+                    className="w-full rounded-2xl object-cover h-48"
+                  />
+                  <img
+                    src="/images/cua-hang-mat-kinh-quan-tan-binh-1024x576.jpg"
+                    alt="Products"
+                    className="w-full rounded-2xl object-cover h-64"
+                  />
+                </div>
+                <div className="space-y-4 pt-8">
+                  <img
+                    src="/images/Group-10-15-800x800.jpg"
+                    alt="Collection"
+                    className="w-full rounded-2xl object-cover h-64"
+                  />
+                  <img
+                    src="/images/resize-trong-doi-mau-tet-1024x1024.jpg"
+                    alt="Lenses"
+                    className="w-full rounded-2xl object-cover h-48"
+                  />
                 </div>
               </div>
             </div>
-
-            <div className="mt-12 px-4 sm:hidden">
-              <a
-                href="#"
-                className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
-              >
-                See everything
-                <span aria-hidden="true"> &rarr;</span>
-              </a>
-            </div>
           </div>
         </section>
 
-        <section aria-labelledby="collections-heading" className="bg-gray-100">
+        {/* Brand Ambassadors */}
+        <section className="bg-gray-50 py-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none ">
-              <h2
-                id="collections-heading"
-                className="text-2xl font-bold text-gray-900"
-              >
-                Collections
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                Đại Sứ Thương Hiệu
               </h2>
+              <p className="mt-2 text-gray-500">
+                Những gương mặt đồng hành cùng {setting.title}
+              </p>
+            </div>
 
-              <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-                {productCategories?.map((productCategory) => (
-                  <CollectionCard
-                    key={productCategory.id}
-                    productCategory={productCategory}
-                  />
-                ))}
-              </div>
+            <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
+              {setting.ambassadors.map((ambassador) => (
+                <div key={ambassador.name} className="group text-center">
+                  <div className="overflow-hidden rounded-2xl aspect-[3/4]">
+                    <img
+                      src={ambassador.image}
+                      alt={ambassador.name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                    {ambassador.name}
+                  </h3>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <div className="relative overflow-hidden">
-          <div aria-hidden="true" className="absolute inset-0">
-            <div className="absolute inset-0 mx-auto max-w-7xl overflow-hidden xl:px-8">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/home-page-02-sale-full-width.jpg"
-                alt=""
-                className="h-full w-full object-cover object-center"
-              />
+        {/* Testimonials */}
+        <section className="bg-white py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                Khách Hàng Nói Gì
+              </h2>
             </div>
-            <div className="absolute inset-0 bg-white bg-opacity-75" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-white" />
+
+            <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
+              {setting.testimonials.map((testimonial) => (
+                <div
+                  key={testimonial.id}
+                  className="rounded-2xl bg-gray-50 p-8"
+                >
+                  <div className="flex gap-1 text-secondary">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <blockquote className="mt-4 text-gray-600 leading-relaxed">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </blockquote>
+                  <p className="mt-4 text-sm font-medium text-gray-900">
+                    — {testimonial.attribution}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Newsletter CTA */}
+        <section className="bg-secondary/10 py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              Nhận ưu đãi độc quyền
+            </h2>
+            <p className="mt-2 text-gray-500">
+              Đăng ký nhận tin để không bỏ lỡ các chương trình khuyến mãi hấp dẫn
+            </p>
+            <form className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Nhập email của bạn"
+                className="w-full rounded-full border border-gray-300 px-5 py-3 text-sm focus:border-primary focus:ring-primary"
+              />
+              <button
+                type="submit"
+                className="btn-primary w-full sm:w-auto whitespace-nowrap"
+              >
+                Đăng ký
+              </button>
+            </form>
+          </div>
+        </section>
+
+        {/* Gallery */}
+        <section className="bg-white">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {setting.gallery.map((img) => (
+              <div key={img.alt} className="overflow-hidden aspect-square">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
       <Footer />
     </>
-  );
-}
-
-function ChevronLeftIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m15 18-6-6 6-6" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m9 18 6-6-6-6" />
-    </svg>
   );
 }

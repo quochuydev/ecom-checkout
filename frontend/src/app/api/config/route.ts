@@ -1,6 +1,5 @@
-import configuration from "@/configuration";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 export async function GET() {
-  return NextResponse.json(configuration);
+  return NextResponse.json({ apiUrl: '' });
 }

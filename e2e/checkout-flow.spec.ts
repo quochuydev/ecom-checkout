@@ -33,7 +33,7 @@ test.describe.serial("Full checkout flow", () => {
     // 6. Navigate to checkout page
     await page.goto("/checkout");
     await expect(
-      page.getByRole("heading", { name: "Thanh Toán", exact: true })
+      page.getByRole("heading", { name: "Thanh Toán", exact: true }),
     ).toBeVisible({ timeout: 10_000 });
 
     // Wait for cart data to load
@@ -53,10 +53,9 @@ test.describe.serial("Full checkout flow", () => {
     await expect(submitBtn).toBeVisible();
 
     const [checkoutResponse] = await Promise.all([
-      page.waitForResponse(
-        (resp) => resp.url().includes("/cart/checkout"),
-        { timeout: 20_000 }
-      ),
+      page.waitForResponse((resp) => resp.url().includes("/cart/checkout"), {
+        timeout: 20_000,
+      }),
       submitBtn.click(),
     ]);
     const checkoutData = await checkoutResponse.json();
@@ -76,8 +75,8 @@ test.describe.serial("Full checkout flow", () => {
 
     // 1. Login via browser
     await page.goto("/admin/login");
-    await page.fill("#email", process.env.ADMIN_EMAIL || "cappuai@yopmail.com");
-    await page.fill("#password", process.env.ADMIN_PASSWORD || "Qwerty@123");
+    await page.fill("#email", process.env.ADMIN_EMAIL);
+    await page.fill("#password", process.env.ADMIN_PASSWORD);
     await page.getByRole("button", { name: /sign in/i }).click();
 
     // Wait for redirect to admin orders
@@ -96,7 +95,9 @@ test.describe.serial("Full checkout flow", () => {
     // 4. Update status via REST API (using browser cookies from login)
     // 4. Change order status using the dropdown on the page
     // Find the row with our order and change the select dropdown
-    const orderRow = page.locator("tr", { has: page.getByText(orderId.substring(0, 8)) });
+    const orderRow = page.locator("tr", {
+      has: page.getByText(orderId.substring(0, 8)),
+    });
     const statusSelect = orderRow.locator("button[role='combobox']");
     await statusSelect.click();
 
@@ -113,7 +114,9 @@ test.describe.serial("Full checkout flow", () => {
     console.log(`Order ${orderId} status updated to Shipped`);
 
     // 6. Change to Delivered via dropdown
-    const orderRow2 = page.locator("tr", { has: page.getByText(orderId.substring(0, 8)) });
+    const orderRow2 = page.locator("tr", {
+      has: page.getByText(orderId.substring(0, 8)),
+    });
     const statusSelect2 = orderRow2.locator("button[role='combobox']");
     await statusSelect2.click();
     await page.getByRole("option", { name: "Delivered" }).click();

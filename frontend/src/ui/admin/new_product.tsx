@@ -54,13 +54,13 @@ export default function NewProduct({ apiUrl }: { apiUrl: string }) {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<z.infer<typeof schema>>({
+  } = useForm<z.output<typeof schema>>({
     defaultValues: {
       price: 0,
       regularPrice: 0,
       imageIds: [],
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
   });
 
   const onSubmit = handleSubmit(async (data) => {

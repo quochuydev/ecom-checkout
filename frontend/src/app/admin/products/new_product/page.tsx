@@ -3,5 +3,5 @@ import NewProduct from '@/ui/admin/new_product';
 import configuration from '@/configuration';
 
 export default function Page() {
-  return <NewProduct appUrl={configuration.appUrl} />;
+  return <NewProduct apiUrl={configuration.appUrl} />;
 }

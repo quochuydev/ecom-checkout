@@ -13,7 +13,7 @@ export type APIService<
 /** Wraps an APIService into a shape compatible with api-caller's Default type */
 export type API<T extends APIService> = {
   url: string;
-  method: 'post';
+  method: 'get' | 'post' | 'put' | 'patch' | 'delete';
   data: T['request'];
   result: T['response'];
 };

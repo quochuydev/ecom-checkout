@@ -71,8 +71,8 @@ export default function Product({
     imageIds: z.array(z.string().trim()).optional(),
   });
 
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<z.output<typeof schema>>({
+    resolver: zodResolver(schema) as any,
     defaultValues: {
       title: "",
       description: "",

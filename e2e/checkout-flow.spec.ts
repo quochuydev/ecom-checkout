@@ -10,9 +10,10 @@ test.describe.serial("Full checkout flow", () => {
     await page.goto("/");
 
     // 2. Wait for products to load and click the first product link
-    const productCard = page.locator('a[href^="/products/"]').first();
+    const productCard = page.locator('a[href^="/products/"]:not([href*="e2e-product"])').first();
     await expect(productCard).toBeVisible({ timeout: 15_000 });
     await productCard.click();
+    await page.waitForURL(/\/products\//, { timeout: 15_000 });
 
     // 3. Product detail page — wait for add-to-cart button
     const addToCartBtn = page.getByRole("button", {

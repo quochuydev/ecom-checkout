@@ -1,4 +1,7 @@
 export const config = {
+  api: {
+    url: process.env.API_URL || "",
+  },
   app: {
     url: process.env.APP_URL || "http://localhost:3333",
     name: "Optica",

@@ -36,9 +36,10 @@ test.describe.serial("User sign up → checkout → order history", () => {
 
     // 2. Browse homepage and pick a product
     await page.goto("/");
-    const productCard = page.locator('a[href^="/products/"]').first();
+    const productCard = page.locator('a[href^="/products/"]:not([href*="e2e-product"])').first();
     await expect(productCard).toBeVisible({ timeout: 15_000 });
     await productCard.click();
+    await page.waitForURL(/\/products\//, { timeout: 15_000 });
 
     // 3. Add to cart
     const addToCartBtn = page.getByRole("button", {

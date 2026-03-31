@@ -24,7 +24,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm --dir frontend dev",
+    command: "pnpm --dir web dev",
     port: 3333,
     reuseExistingServer: true,
     timeout: 30_000,

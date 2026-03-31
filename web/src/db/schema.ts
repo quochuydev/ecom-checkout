@@ -114,6 +114,7 @@ export const product = pgTable('Product', {
   regularPrice: real('regularPrice').default(0).notNull(),
   createdDate: timestamp('createdDate').defaultNow().notNull(),
   updatedDate: timestamp('updatedDate').defaultNow().notNull(),
+  deletedAt: timestamp('deletedAt'),
 });
 
 export const productRelations = relations(product, ({ many }) => ({

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { image, imageToProduct, product } from "@/db/schema";
-import { inArray } from "drizzle-orm";
+import { inArray, isNull } from "drizzle-orm";
 
 export async function GET() {
   try {
-    const products = await db.select().from(product);
+    const products = await db.select().from(product).where(isNull(product.deletedAt));
     const productIds = products.map((p) => p.id);
 
     const imageLinks = productIds.length > 0

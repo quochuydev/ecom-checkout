@@ -2,10 +2,10 @@ import React from "react";
 import Products from "@/ui/admin/products";
 import { db } from "@/db";
 import { product, image, imageToProduct } from "@/db/schema";
-import { inArray } from "drizzle-orm";
+import { inArray, isNull } from "drizzle-orm";
 
 export default async function Page() {
-  const products = await db.select().from(product);
+  const products = await db.select().from(product).where(isNull(product.deletedAt));
 
   const productIds = products.map((p) => p.id);
   const imgLinks = productIds.length > 0

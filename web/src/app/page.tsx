@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { product, image, imageToProduct, productCategory, productToProductCategory } from "@/db/schema";
 import Home from "@/ui/home";
-import { desc, inArray } from "drizzle-orm";
+import { desc, inArray, isNull } from "drizzle-orm";
 
 export default async function Page() {
   const [products, categories] = await Promise.all([
@@ -16,6 +16,7 @@ async function getProductsWithImages(limit?: number) {
   const allProducts = await db
     .select()
     .from(product)
+    .where(isNull(product.deletedAt))
     .orderBy(desc(product.createdDate))
     .limit(limit ?? 100);
 

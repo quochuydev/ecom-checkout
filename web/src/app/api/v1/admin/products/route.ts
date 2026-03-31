@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { db } from "@/db";
 import { image, imageToProduct, product } from "@/db/schema";
-import { inArray } from "drizzle-orm";
+import { inArray, isNull } from "drizzle-orm";
 import slugify from "slugify";
 import { z } from "zod";
 
@@ -26,7 +26,7 @@ export async function GET() {
   const denied = await requireAdmin();
   if (denied) return denied;
   try {
-    const products = await db.select().from(product);
+    const products = await db.select().from(product).where(isNull(product.deletedAt));
     const productIds = products.map((p) => p.id);
     const imageLinks = productIds.length > 0
       ? await db.select().from(imageToProduct).where(inArray(imageToProduct.b, productIds))

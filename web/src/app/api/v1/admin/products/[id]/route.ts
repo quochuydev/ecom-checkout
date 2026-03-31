@@ -49,3 +49,18 @@ export async function PATCH(
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+  try {
+    const { id } = await params;
+    await db.update(product).set({ deletedAt: new Date() }).where(eq(product.id, id));
+    return NextResponse.json({});
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}

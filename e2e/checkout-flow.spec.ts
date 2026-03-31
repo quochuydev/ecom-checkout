@@ -95,21 +95,20 @@ test.describe.serial("Full checkout flow", () => {
     await expect(orderCell).toBeVisible({ timeout: 10_000 });
     console.log(`Order ${orderId} found in admin orders list`);
 
-    // 4. Update status via REST API (using browser cookies from login)
     // 4. Change order status using the dropdown on the page
-    // Find the row with our order and change the select dropdown
     const orderRow = page.locator("tr", {
       has: page.getByText(orderId.substring(0, 8)),
     });
     const statusSelect = orderRow.locator("button[role='combobox']");
-    await statusSelect.click();
+    await expect(statusSelect).toBeVisible({ timeout: 5_000 });
 
     // Select "Shipped" and wait for PATCH to complete
     const shippedPatch = page.waitForResponse(
       (resp) => resp.url().includes("/api/v1/admin/orders/") && resp.request().method() === "PATCH",
       { timeout: 15_000 },
     );
-    await page.getByRole("option", { name: "Shipped" }).click();
+    await statusSelect.click();
+    await page.locator("[role='option']").filter({ hasText: "Shipped" }).click();
     await shippedPatch;
 
     // 5. Reload, re-search, and verify Shipped
@@ -128,12 +127,12 @@ test.describe.serial("Full checkout flow", () => {
 
     // 6. Change to Delivered via dropdown
     const statusSelect2 = shippedRow.locator("button[role='combobox']");
-    await statusSelect2.click();
     const deliveredPatch = page.waitForResponse(
       (resp) => resp.url().includes("/api/v1/admin/orders/") && resp.request().method() === "PATCH",
       { timeout: 15_000 },
     );
-    await page.getByRole("option", { name: "Delivered" }).click();
+    await statusSelect2.click();
+    await page.locator("[role='option']").filter({ hasText: "Delivered" }).click();
     await deliveredPatch;
 
     // 7. Reload, re-search, and verify Delivered

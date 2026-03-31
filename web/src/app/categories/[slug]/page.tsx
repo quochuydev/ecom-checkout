@@ -2,7 +2,7 @@ import React from "react";
 import Categories from "@/ui/categories";
 import { db } from "@/db";
 import { product, image, imageToProduct, productCategory, productToProductCategory } from "@/db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 
 export default async function Page({ params }: any) {
   const { slug } = await params;
@@ -28,7 +28,7 @@ async function getProductsByCategorySlug(slug: string) {
   const productIds = catLinks.map((l) => l.a);
   if (productIds.length === 0) return [];
 
-  const products = await db.select().from(product).where(inArray(product.id, productIds));
+  const products = await db.select().from(product).where(and(inArray(product.id, productIds), isNull(product.deletedAt)));
   const imgLinks = await db.select().from(imageToProduct).where(inArray(imageToProduct.b, productIds));
   const imgIds = imgLinks.map((l) => l.a);
   const images = imgIds.length > 0 ? await db.select().from(image).where(inArray(image.id, imgIds)) : [];

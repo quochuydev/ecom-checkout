@@ -38,6 +38,12 @@ export default function Products({ products }: { products: Product[] }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+  async function deleteProduct(id: string) {
+    if (!confirm("Are you sure you want to delete this product?")) return;
+    const res = await fetch(`/api/v1/admin/products/${id}`, { method: "DELETE" });
+    if (res.ok) router.refresh();
+  }
+
   return (
     <Layout page="products">
       <div className="flex flex-col gap-6">
@@ -136,7 +142,7 @@ export default function Products({ products }: { products: Product[] }) {
                         <DropdownMenuItem>
                           <a href={`/admin/products/${item.id}`}>View</a>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteProduct(item.id)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

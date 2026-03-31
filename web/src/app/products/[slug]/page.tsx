@@ -2,7 +2,7 @@ import React from "react";
 import ProductUI from "@/ui/product";
 import { db } from "@/db";
 import { product, image, imageToProduct } from "@/db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
 export default async function Page({ params }: any) {
@@ -11,7 +11,7 @@ export default async function Page({ params }: any) {
   const [found] = await db
     .select()
     .from(product)
-    .where(eq(product.slug, slug));
+    .where(and(eq(product.slug, slug), isNull(product.deletedAt)));
 
   if (!found) redirect("/");
 
@@ -23,7 +23,7 @@ export default async function Page({ params }: any) {
 
   const productWithImages = { ...found, images };
 
-  const allProducts = await db.select().from(product);
+  const allProducts = await db.select().from(product).where(isNull(product.deletedAt));
   const allImgLinks = allProducts.length > 0
     ? await db.select().from(imageToProduct).where(inArray(imageToProduct.b, allProducts.map((p) => p.id)))
     : [];

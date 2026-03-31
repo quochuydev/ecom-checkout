@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { image, imageToProduct, product } from "@/db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 
 export async function GET(
   _request: NextRequest,
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const [found] = await db.select().from(product).where(eq(product.slug, slug));
+    const [found] = await db.select().from(product).where(and(eq(product.slug, slug), isNull(product.deletedAt)));
     if (!found) return NextResponse.json({ message: "Not found" }, { status: 404 });
 
     const imageLinks = await db.select().from(imageToProduct).where(eq(imageToProduct.b, found.id));

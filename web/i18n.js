@@ -1,8 +1,8 @@
 module.exports = {
-  locales: ['en', 'de'],
-  defaultLocale: 'en',
+  locales: ["en", "vi"],
+  defaultLocale: "en",
   pages: {
-    '*': ['common'],
+    "*": ["common"],
   },
   logBuild: false,
 };

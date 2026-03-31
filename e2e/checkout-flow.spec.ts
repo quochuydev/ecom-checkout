@@ -84,10 +84,13 @@ test.describe.serial("Full checkout flow", () => {
       timeout: 15_000,
     });
 
-    // 2. Wait for orders data to load
+    // 2. Wait for orders data to load and search for the order
     await page.waitForTimeout(3_000);
+    const searchInput = page.getByPlaceholder("Search orders...");
+    await searchInput.fill(orderId.substring(0, 8));
+    await page.waitForTimeout(1_000);
 
-    // 3. Verify the order appears in the table
+    // 3. Verify the order appears in the filtered table
     const orderCell = page.getByText(orderId.substring(0, 8));
     await expect(orderCell).toBeVisible({ timeout: 10_000 });
     console.log(`Order ${orderId} found in admin orders list`);
@@ -101,31 +104,48 @@ test.describe.serial("Full checkout flow", () => {
     const statusSelect = orderRow.locator("button[role='combobox']");
     await statusSelect.click();
 
-    // Select "Shipped"
+    // Select "Shipped" and wait for PATCH to complete
+    const shippedPatch = page.waitForResponse(
+      (resp) => resp.url().includes("/api/v1/admin/orders/") && resp.request().method() === "PATCH",
+      { timeout: 15_000 },
+    );
     await page.getByRole("option", { name: "Shipped" }).click();
-    await page.waitForTimeout(2_000);
+    await shippedPatch;
 
-    // 5. Reload and verify
+    // 5. Reload, re-search, and verify Shipped
     await page.reload();
     await page.waitForTimeout(3_000);
-    await expect(page.getByText("Shipped").first()).toBeVisible({
+    await page.getByPlaceholder("Search orders...").fill(orderId.substring(0, 8));
+    await page.waitForTimeout(1_000);
+
+    const shippedRow = page.locator("tr", {
+      has: page.getByText(orderId.substring(0, 8)),
+    });
+    await expect(shippedRow.getByText("Shipped")).toBeVisible({
       timeout: 10_000,
     });
     console.log(`Order ${orderId} status updated to Shipped`);
 
     // 6. Change to Delivered via dropdown
-    const orderRow2 = page.locator("tr", {
-      has: page.getByText(orderId.substring(0, 8)),
-    });
-    const statusSelect2 = orderRow2.locator("button[role='combobox']");
+    const statusSelect2 = shippedRow.locator("button[role='combobox']");
     await statusSelect2.click();
+    const deliveredPatch = page.waitForResponse(
+      (resp) => resp.url().includes("/api/v1/admin/orders/") && resp.request().method() === "PATCH",
+      { timeout: 15_000 },
+    );
     await page.getByRole("option", { name: "Delivered" }).click();
-    await page.waitForTimeout(2_000);
+    await deliveredPatch;
 
-    // 7. Reload and verify
+    // 7. Reload, re-search, and verify Delivered
     await page.reload();
     await page.waitForTimeout(3_000);
-    await expect(page.getByText("Delivered").first()).toBeVisible({
+    await page.getByPlaceholder("Search orders...").fill(orderId.substring(0, 8));
+    await page.waitForTimeout(1_000);
+
+    const deliveredRow = page.locator("tr", {
+      has: page.getByText(orderId.substring(0, 8)),
+    });
+    await expect(deliveredRow.getByText("Delivered")).toBeVisible({
       timeout: 10_000,
     });
     console.log(`Order ${orderId} status updated to Delivered`);

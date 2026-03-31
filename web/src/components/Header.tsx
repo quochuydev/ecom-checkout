@@ -48,10 +48,10 @@ export default function Header() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <a href={setting.marketplaces.shopee.url}>
-                    <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-5 w-auto brightness-0 invert" />
+                    <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-5 w-auto" />
                   </a>
                   <a href={setting.marketplaces.lazada.url}>
-                    <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-5 w-auto brightness-0 invert" />
+                    <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-5 w-auto" />
                   </a>
                 </div>
               </div>

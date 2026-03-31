@@ -17,10 +17,10 @@ export default function Footer() {
             </p>
             <div className="flex items-center space-x-3 pt-2">
               <a href={setting.marketplaces.shopee.url}>
-                <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-8 w-auto brightness-0 invert opacity-70 hover:opacity-100 transition-opacity" />
+                <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
               </a>
               <a href={setting.marketplaces.lazada.url}>
-                <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-8 w-auto brightness-0 invert opacity-70 hover:opacity-100 transition-opacity" />
+                <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
               </a>
             </div>
           </div>

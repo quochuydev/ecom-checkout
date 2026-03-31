@@ -4,22 +4,22 @@
  * Requires the Next.js dev server to be running on port 3333.
  */
 
-const APP_URL = process.env.APP_URL || "http://localhost:3333";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "cappuai@yopmail.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Qwerty@123";
-const ADMIN_NAME = "Admin";
+const appUrl = "https://shop.cappuai.com";
+const adminEmail = "cappuai@yopmail.com";
+const adminPassword = "Qwerty@123";
+const adminName = "Admin";
 
 async function main() {
-  console.log(`Seeding admin account: ${ADMIN_EMAIL}`);
+  console.log(`Seeding admin account: ${adminEmail}`);
 
   // 1. Sign up the admin user
-  const signUpRes = await fetch(`${APP_URL}/api/auth/sign-up/email`, {
+  const signUpRes = await fetch(`${appUrl}/api/auth/sign-up/email`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "Origin": APP_URL },
+    headers: { "Content-Type": "application/json", Origin: appUrl },
     body: JSON.stringify({
-      email: ADMIN_EMAIL,
-      password: ADMIN_PASSWORD,
-      name: ADMIN_NAME,
+      email: adminEmail,
+      password: adminPassword,
+      name: adminName,
     }),
   });
 
@@ -35,12 +35,12 @@ async function main() {
   }
 
   // 2. Verify login works
-  const loginRes = await fetch(`${APP_URL}/api/auth/sign-in/email`, {
+  const loginRes = await fetch(`${appUrl}/api/auth/sign-in/email`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "Origin": APP_URL },
+    headers: { "Content-Type": "application/json", Origin: appUrl },
     body: JSON.stringify({
-      email: ADMIN_EMAIL,
-      password: ADMIN_PASSWORD,
+      email: adminEmail,
+      password: adminPassword,
     }),
   });
 

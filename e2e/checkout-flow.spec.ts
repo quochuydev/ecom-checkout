@@ -75,8 +75,8 @@ test.describe.serial("Full checkout flow", () => {
 
     // 1. Login via browser
     await page.goto("/admin/login");
-    await page.fill("#email", process.env.ADMIN_EMAIL);
-    await page.fill("#password", process.env.ADMIN_PASSWORD);
+    await page.fill("#email", "cappuai@yopmail.com");
+    await page.fill("#password", "Qwerty@123");
     await page.getByRole("button", { name: /sign in/i }).click();
 
     // Wait for redirect to admin orders

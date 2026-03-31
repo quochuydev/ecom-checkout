@@ -6,7 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 const schema = z.object({
-  productId: z.string().uuid(),
+  productId: z.string(),
 });
 
 export async function POST(request: NextRequest) {

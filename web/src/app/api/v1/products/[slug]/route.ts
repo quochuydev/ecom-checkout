@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { image, imageToProduct, product } from "@/db/schema";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }

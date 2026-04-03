@@ -1,5 +1,6 @@
 "use client";
 import { setting } from "@/settings";
+import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import {
   Dialog,
@@ -43,7 +44,7 @@ export default function HeaderMobile({
           >
             <DialogPanel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white shadow-xl">
               <div className="flex items-center justify-between px-4 py-4 border-b">
-                <img src={setting.logo} alt={setting.title} className="h-8 w-auto brightness-0" />
+                <Image src={setting.logo} alt={setting.title} width={96} height={32} className="h-8 w-auto brightness-0" />
                 <button
                   type="button"
                   className="-m-2 p-2 text-gray-400 hover:text-gray-500"

@@ -18,6 +18,7 @@ export function useCategory() {
       });
       return data?.items || [];
     },
+    staleTime: 10 * 60 * 1000,
   });
 
   return { productCategories };

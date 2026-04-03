@@ -35,7 +35,7 @@ export const setting = {
   ],
   banners: [
     {
-      src: "/images/banner-web-thang-5-1024x449.png",
+      src: "/images/banner-web-thang-5-1024x449.webp",
       alt: `${c.name} Promotion`,
       title: "Ưu Đãi Đặc Biệt",
       description: `Chương trình khuyến mãi hấp dẫn tại ${c.name}`,
@@ -51,7 +51,7 @@ export const setting = {
       buttonUrl: "#",
     },
     {
-      src: "/images/ECOM-2.1-1.png",
+      src: "/images/ECOM-2.1-1.webp",
       alt: `${c.name} Collection`,
       title: "Bộ Sưu Tập Mới",
       description: `Khám phá phong cách kính mắt thời thượng cùng ${c.name}`,
@@ -79,7 +79,7 @@ export const setting = {
     {
       title: `${c.storeCount} Cửa Hàng`,
       description: "Hệ thống cửa hàng rộng khắp toàn quốc, phục vụ tận tâm",
-      image: "/images/store-1.png",
+      image: "/images/store-1.webp",
     },
     {
       title: "Miễn Phí Vệ Sinh",

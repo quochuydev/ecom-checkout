@@ -16,7 +16,8 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (isAuthenticated) router.replace("/account");
-  }, [isAuthenticated, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

@@ -12,6 +12,7 @@ export function useCart() {
         url: "/api/v1/cart",
         method: "get",
       }),
+    staleTime: 5 * 60 * 1000,
   });
 
   async function addItem(productId: string) {

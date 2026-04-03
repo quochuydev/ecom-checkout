@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { setting } from "@/settings";
+import Image from "next/image";
 import { EnvelopeIcon, MapPinIcon } from "@heroicons/react/24/outline";
 
 export default function Footer() {
@@ -11,16 +11,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <img src={setting.logo} alt={setting.title} className="h-10 w-auto brightness-0 invert" />
+            <Image src={setting.logo} alt={setting.title} width={120} height={40} className="h-10 w-auto brightness-0 invert" />
             <p className="text-sm text-white/70 leading-relaxed">
               {setting.description}
             </p>
             <div className="flex items-center space-x-3 pt-2">
               <a href={setting.marketplaces.shopee.url}>
-                <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+                <Image src={setting.marketplaces.shopee.icon} alt="Shopee" width={32} height={32} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
               </a>
               <a href={setting.marketplaces.lazada.url}>
-                <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+                <Image src={setting.marketplaces.lazada.icon} alt="Lazada" width={32} height={32} className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
               </a>
             </div>
           </div>

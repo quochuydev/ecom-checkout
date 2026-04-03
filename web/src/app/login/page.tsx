@@ -29,7 +29,8 @@ function Login() {
 
   useEffect(() => {
     if (isAuthenticated) router.replace(callbackUrl);
-  }, [isAuthenticated, callbackUrl, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, callbackUrl]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

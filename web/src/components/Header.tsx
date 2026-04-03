@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import HeaderMobile from "@/components/HeaderMobile";
 import { useCart } from "@/hooks/useCart";
 import { setting } from "@/settings";
+import Image from "next/image";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -48,10 +48,10 @@ export default function Header() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <a href={setting.marketplaces.shopee.url}>
-                    <img src={setting.marketplaces.shopee.icon} alt="Shopee" className="h-5 w-auto" />
+                    <Image src={setting.marketplaces.shopee.icon} alt="Shopee" width={20} height={20} className="h-5 w-auto" />
                   </a>
                   <a href={setting.marketplaces.lazada.url}>
-                    <img src={setting.marketplaces.lazada.icon} alt="Lazada" className="h-5 w-auto" />
+                    <Image src={setting.marketplaces.lazada.icon} alt="Lazada" width={20} height={20} className="h-5 w-auto" />
                   </a>
                 </div>
               </div>
@@ -76,10 +76,13 @@ export default function Header() {
 
                 {/* Logo */}
                 <a href="/" className="flex items-center">
-                  <img
+                  <Image
                     className="h-10 w-auto brightness-0"
                     src={setting.logo}
                     alt={setting.title}
+                    width={120}
+                    height={40}
+                    priority
                   />
                 </a>
 

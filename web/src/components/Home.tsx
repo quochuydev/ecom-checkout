@@ -1,6 +1,7 @@
 "use client";
 import { ROUTING } from "@/lib/constants";
 import { setting } from "@/settings";
+import Image from "next/image";
 import CollectionCard from "./CollectionCard";
 import ProductCard from "./ProductCard";
 
@@ -33,10 +34,13 @@ export default function Home({ productCategories, products }: any) {
         </nav>
 
         <div className="relative">
-          <img
-            src="/banner.png"
-            alt="banner"
+          <Image
+            src={setting.banners[0].src}
+            alt={setting.banners[0].alt}
+            width={1024}
+            height={449}
             className="h-full w-full object-cover object-center"
+            priority
           />
         </div>
       </div>
@@ -110,9 +114,11 @@ export default function Home({ productCategories, products }: any) {
         {/* Decorative background image and gradient */}
         <div aria-hidden="true" className="absolute inset-0">
           <div className="absolute inset-0 mx-auto max-w-7xl overflow-hidden xl:px-8">
-            <img
-              src="/banner.png"
+            <Image
+              src={setting.banners[0].src}
               alt=""
+              width={1024}
+              height={449}
               className="h-full w-full object-cover object-center"
             />
           </div>

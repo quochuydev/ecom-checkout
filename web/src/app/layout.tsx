@@ -1,6 +1,7 @@
 import Providers from "@/components/ReactQueryProviders";
 import { setting } from "@/settings";
 import { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -31,6 +32,18 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className="antialiased">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-JNTVJ8NGVQ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JNTVJ8NGVQ');
+          `}
+        </Script>
         <Providers>{children}</Providers>
       </body>
     </html>

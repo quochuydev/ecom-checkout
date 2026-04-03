@@ -35,14 +35,6 @@ export const setting = {
   ],
   banners: [
     {
-      src: "/images/ECOM-2.1-1.png",
-      alt: `${c.name} Collection`,
-      title: "Bộ Sưu Tập Mới",
-      description: `Khám phá phong cách kính mắt thời thượng cùng ${c.name}`,
-      button: "Khám phá ngay",
-      buttonUrl: siteInfo.navigation.collections,
-    },
-    {
       src: "/images/banner-web-thang-5-1024x449.png",
       alt: `${c.name} Promotion`,
       title: "Ưu Đãi Đặc Biệt",
@@ -57,6 +49,14 @@ export const setting = {
       description: c.tagline,
       button: "Tìm cửa hàng",
       buttonUrl: "#",
+    },
+    {
+      src: "/images/ECOM-2.1-1.png",
+      alt: `${c.name} Collection`,
+      title: "Bộ Sưu Tập Mới",
+      description: `Khám phá phong cách kính mắt thời thượng cùng ${c.name}`,
+      button: "Khám phá ngay",
+      buttonUrl: siteInfo.navigation.collections,
     },
   ],
   collections: siteInfo.collections.map((name, i) => ({
@@ -93,7 +93,8 @@ export const setting = {
     },
     {
       title: "Hoàn Tiền",
-      description: "Chính sách hoàn tiền linh hoạt, đảm bảo quyền lợi khách hàng",
+      description:
+        "Chính sách hoàn tiền linh hoạt, đảm bảo quyền lợi khách hàng",
       image: "/images/cashback.svg",
     },
   ],
@@ -110,7 +111,8 @@ export const setting = {
     },
     {
       id: 2,
-      quote: "Gọng kính đẹp, nhẹ và rất thoải mái khi đeo cả ngày. Sẽ quay lại mua thêm!",
+      quote:
+        "Gọng kính đẹp, nhẹ và rất thoải mái khi đeo cả ngày. Sẽ quay lại mua thêm!",
       attribution: "Khách hàng tại Hà Nội",
     },
     {
@@ -125,10 +127,22 @@ export const setting = {
     website: c.website,
   },
   gallery: [
-    { src: "/images/339648934_742325727600337_5294432833355861863_n-1024x1024.jpg", alt: `${c.name} Store` },
-    { src: "/images/339573280_1281695959446380_8805873728320224173_n-1024x1024.jpg", alt: `${c.name} Products` },
-    { src: "/images/370151473_779875627481731_4947430330752365522_n-e1723453918785-956x1024.jpg", alt: `${c.name} Style` },
-    { src: "/images/354453278_654805029864554_1443861880791195682_n-e1723452773728-1024x942.jpg", alt: `${c.name} Collection` },
+    {
+      src: "/images/339648934_742325727600337_5294432833355861863_n-1024x1024.jpg",
+      alt: `${c.name} Store`,
+    },
+    {
+      src: "/images/339573280_1281695959446380_8805873728320224173_n-1024x1024.jpg",
+      alt: `${c.name} Products`,
+    },
+    {
+      src: "/images/370151473_779875627481731_4947430330752365522_n-e1723453918785-956x1024.jpg",
+      alt: `${c.name} Style`,
+    },
+    {
+      src: "/images/354453278_654805029864554_1443861880791195682_n-e1723452773728-1024x942.jpg",
+      alt: `${c.name} Collection`,
+    },
   ],
   marketplaces: {
     shopee: { icon: "/images/shopee.png", url: "#" },

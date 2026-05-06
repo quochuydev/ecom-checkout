@@ -18,10 +18,15 @@ export function ChatView({ title, messages, onChange, onToggleSidebar }: Props) 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (!loading) inputRef.current?.focus();
+  }, [loading]);
 
   const send = async () => {
     const text = input.trim();
@@ -74,7 +79,7 @@ export function ChatView({ title, messages, onChange, onToggleSidebar }: Props) 
             <button
               type="button"
               onClick={onToggleSidebar}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-[#050505] hover:bg-[#f2f2f2] md:hidden"
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-[#050505] hover:bg-[#f2f2f2] md:hidden"
               aria-label="Toggle conversations"
             >
               <Menu className="h-5 w-5" />
@@ -91,14 +96,14 @@ export function ChatView({ title, messages, onChange, onToggleSidebar }: Props) 
         <div className="flex items-center gap-1 text-[#0084ff]">
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#f2f2f2]"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#f2f2f2]"
             aria-label="Voice call"
           >
             <Phone className="h-5 w-5" />
           </button>
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#f2f2f2]"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#f2f2f2]"
             aria-label="Video call"
           >
             <Video className="h-5 w-5" />
@@ -121,11 +126,13 @@ export function ChatView({ title, messages, onChange, onToggleSidebar }: Props) 
         <div className="mx-auto flex w-full max-w-[760px] items-center gap-2">
           <div className="flex flex-1 items-center rounded-full bg-[#f0f2f5] px-4">
             <input
+              ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               placeholder="Aa"
               disabled={loading}
+              autoFocus
               className="h-9 flex-1 bg-transparent text-[15px] text-[#050505] placeholder-[#65676b] outline-none disabled:opacity-60"
             />
           </div>
@@ -136,7 +143,9 @@ export function ChatView({ title, messages, onChange, onToggleSidebar }: Props) 
             aria-label="Send"
             className={cn(
               "flex h-9 w-9 items-center justify-center rounded-full transition-colors",
-              canSend ? "text-[#0084ff] hover:bg-[#e7f3ff]" : "text-[#bcc0c4]",
+              canSend
+                ? "cursor-pointer text-[#0084ff] hover:bg-[#e7f3ff]"
+                : "cursor-not-allowed text-[#bcc0c4]",
             )}
           >
             <Send className="h-5 w-5" />

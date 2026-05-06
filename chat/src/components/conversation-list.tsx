@@ -30,7 +30,7 @@ export function ConversationList({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-[#444746] hover:bg-[#e2e8ef] md:hidden"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#444746] hover:bg-[#e2e8ef] md:hidden"
             aria-label="Close sidebar"
           >
             <PanelLeftClose className="h-5 w-5" />
@@ -42,7 +42,7 @@ export function ConversationList({
         <button
           type="button"
           onClick={onNew}
-          className="flex h-10 w-full items-center gap-3 rounded-full bg-[#dde3ea] px-3 text-[14px] font-medium text-[#1f1f1f] hover:bg-[#d3dae2]"
+          className="flex h-10 w-full cursor-pointer items-center gap-3 rounded-full bg-[#dde3ea] px-3 text-[14px] font-medium text-[#1f1f1f] hover:bg-[#d3dae2]"
         >
           <MessageSquarePlus className="h-5 w-5" />
           New chat
@@ -75,6 +75,8 @@ export function ConversationList({
               return (
                 <li key={c.id}>
                   <div
+                    role="button"
+                    tabIndex={0}
                     className={cn(
                       "group relative flex h-10 cursor-pointer items-center rounded-full pl-3 pr-1 text-[14px]",
                       isActive
@@ -91,7 +93,7 @@ export function ConversationList({
                         if (window.confirm("Delete this chat?")) onDelete(c.id);
                       }}
                       className={cn(
-                        "flex h-8 w-8 items-center justify-center rounded-full text-[#444746] opacity-0 transition-opacity hover:bg-black/5 group-hover:opacity-100",
+                        "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#444746] opacity-0 transition-opacity hover:bg-black/5 group-hover:opacity-100",
                         isActive && "opacity-100",
                       )}
                       aria-label="Delete chat"

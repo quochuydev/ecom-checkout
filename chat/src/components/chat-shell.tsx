@@ -111,7 +111,7 @@ export function ChatShell() {
           <button
             type="button"
             aria-label="Close sidebar overlay"
-            className="flex-1 bg-black/30"
+            className="flex-1 cursor-pointer bg-black/30"
             onClick={() => setSidebarOpen(false)}
           />
         </div>

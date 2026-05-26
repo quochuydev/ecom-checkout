@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageSquarePlus, MoreHorizontal, PanelLeftClose, Search, Trash2 } from "lucide-react";
+import { MessageSquarePlus, PanelLeftClose, Search, Trash2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { Conversation } from "@/lib/types";
@@ -106,13 +106,6 @@ export function ConversationList({
             })}
           </ul>
         )}
-      </div>
-
-      <div className="border-t border-[#dde3ea] px-3 py-2 text-[12px] text-[#5f6368]">
-        <div className="flex items-center gap-2">
-          <MoreHorizontal className="h-4 w-4" />
-          <span>Settings &amp; help</span>
-        </div>
       </div>
     </aside>
   );

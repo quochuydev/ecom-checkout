@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Menu, Phone, Send, Video } from "lucide-react";
+import { Menu, Send } from "lucide-react";
 
 import { ProductSuggestion } from "@/components/product-suggestion";
 import { cn } from "@/lib/utils";
@@ -92,22 +92,6 @@ export function ChatView({ title, messages, onChange, onToggleSidebar }: Props) 
             <span className="line-clamp-1 text-[15px] font-semibold text-[#050505]">{title}</span>
             <span className="text-xs text-[#65676b]">Active now</span>
           </div>
-        </div>
-        <div className="flex items-center gap-1 text-[#0084ff]">
-          <button
-            type="button"
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#f2f2f2]"
-            aria-label="Voice call"
-          >
-            <Phone className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-[#f2f2f2]"
-            aria-label="Video call"
-          >
-            <Video className="h-5 w-5" />
-          </button>
         </div>
       </header>
 
